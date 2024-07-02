@@ -14,8 +14,8 @@ import streamlit as st
 # sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\caralt-qa-editor-adl\\src")
 # sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\caralt-qa-editor-adl\\src\\backend")
 
-sys.path.append("/mount/src/caralt-qa-editor-dev-env/src")
-sys.path.append("/mount/src/caralt-qa-editor-dev-env/src/backend")
+sys.path.append("/mount/src/carlat-qa-editor-dev-env/src")
+sys.path.append("/mount/src/carlat-qa-editor-dev-env/src/backend")
 
 # Get the absolute path to the main directory (my_project)
 main_directory = os.path.abspath(os.path.dirname(__file__))
