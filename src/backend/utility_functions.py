@@ -1178,13 +1178,12 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
             - Do not say thank you in the questions
             - Do not use "Let's talk, Let's delve, ect" in the interviewer questions
+            - Do not alter or modify the quotes.
             - Remove repetitive Q/A pairs (keep only the first original instance)
             - Do not mention the topics, the output must be a flowful interview transcript of question/answer pairs.
             - Each interviewer intercation should contain a full question.
             - Thank the interviewee at the end of the transcript for his time.
-            - Ensure the interviewee's response is always in the form of only one detailed paragraph.
-            - Ensure that the one paragraph answers reports all the important information and use the same wording in the quote.
-            - Ensure that for each QA in the input, there is a QA in the output which is the flowful interview transcript to be generated.
+            - Ensure that  each QA pair in the input is also present in the output which is the flowful interview transcript to be generated.
             - Ensure that the QA pairs appear in the flawful interview transcript following the order of the topics in the input.
             - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
             <INSTRUCTIONS END> 
@@ -1197,10 +1196,10 @@ def make_transcript_flowful(ordered_topics, qa_draft):
     completion = client.chat.completions.create(
     model="gpt-4o-mini", 
     messages = messages,
-    temperature=0.6,
-    max_tokens=3500,
+    temperature=0.5,
+    max_tokens=5000,
     top_p=0.00001,
-    frequency_penalty=0.7,
+    frequency_penalty=0,
     presence_penalty=0,
     )
 

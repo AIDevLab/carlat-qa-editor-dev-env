@@ -358,8 +358,8 @@ with st.container(border=False):
                     
             st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
             # update the conversation flow and vary the questions 
-            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_dict.keys(), st.session_state.final_draft)
-            st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
+            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_dict.keys(), initial_draft)
+            #st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
             #st.download_button("Download draft", st.session_state.final_draft)
 
             document = doc()
