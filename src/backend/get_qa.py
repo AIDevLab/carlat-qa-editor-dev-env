@@ -190,7 +190,7 @@ def get_qa(quotes,topic):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", # model = "deployment_name"
+    model="gpt-4o-mini", # model = "deployment_name"
     messages = message_text,
     temperature=0.00000001,
     max_tokens=2800,

@@ -12,3 +12,5 @@ src/backend/__pycache__/utility_functions.cpython-311.pyc
 src/backend/__pycache__/__init__.cpython-311.pyc
 src/backend/__pycache__/get_key_topics_.cpython-311.pyc
 src/frontend/__pycache__/__init__.cpython-311.pyc
+src/frontend/memorable_quotes.docx
+src/frontend/generated_draft.docx

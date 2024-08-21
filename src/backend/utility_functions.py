@@ -18,8 +18,15 @@ from openai import OpenAI
 import json
 import traceback 
 import concurrent.futures
+from pydantic import BaseModel
 
 
+
+
+
+class enhanced_qa(BaseModel):
+    question: str
+    answer: str
 
 # Get the absolute path to the main directory (my_project)
 main_directory = os.path.abspath(os.path.dirname(__file__))
@@ -77,7 +84,7 @@ def get_quotes_qa_ourlines(transcript, topic):
         temperature=0.00000001,
         seed=0,
     )
-    model = models.openai("gpt-3.5-turbo-16k-0613", config=config)
+    model = models.openai("gpt-4o-mini", config=config)
 
     class Output(BaseModel):
         quotes: list
@@ -120,6 +127,7 @@ def process_key_topics(topics_string):
         list of topics
     """
     topics = topics_string.strip().split('\n')
+    topics = [topic.strip() for topic in topics]
     return topics
 
 
@@ -162,10 +170,10 @@ def get_key_topics(transcript, custom_instructions):
                     End of Transcript:
                     ----------------------------------------------------------------
                     Given the above interview transcript, your role is to extract up to 8 key subtopics related to the main topic and display them as bullet points.\
-                    The extracted key topic can be less than 8 but not more than 8.\
-                    Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
-                    Limit the number of subtopics to the top 6 to 8 most dominant subtopics.\
-
+                    + The extracted key topic can be less than 8 but not more than 8.\
+                    + Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
+                    + Limit the number of subtopics to the top 6 to 8 most dominant subtopics.\
+                    + Avoid using a hyphen as the leading symbol for topics
                     
                     The key topics must always be in the following format:\
 
@@ -192,7 +200,7 @@ def get_key_topics(transcript, custom_instructions):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", # model = "deployment_name" gpt-3.5-turbo-16k-0613
+    model="gpt-4o-mini", # model = "deployment_name" gpt-4o-mini
     messages=message_text,
     temperature=0.0001,
     max_tokens=300,
@@ -288,7 +296,7 @@ def get_qa(quotes, topic, custom_prompt):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", # model = "deployment_name"
+    model="gpt-4o-mini", # model = "deployment_name"
     messages=message_text,
     temperature=0.000001,
     max_tokens=4000,
@@ -372,7 +380,7 @@ def generate_final_draft():
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613",
+    model="gpt-4o-mini",
     messages=message_text,
     temperature=0.1,
     max_tokens=8000,
@@ -432,7 +440,7 @@ def extract_redundancy(initial_draft):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613",
+    model="gpt-4o-mini",
     messages=message_text,
     temperature=0.7,
     max_tokens=5000,
@@ -485,7 +493,7 @@ def substruct_redundancy(initial_draft, redundant_pairs):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", 
+    model="gpt-4o-mini", 
     messages=message_text,
     temperature=0.4,
     max_tokens=3000,
@@ -744,7 +752,7 @@ def get_memorible_quotes(transcript):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", 
+    model="gpt-4o-mini", 
     messages=message_text,
     temperature=0.5,
     max_tokens=3000,
@@ -783,11 +791,12 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                                 + Always put a comma , after each JSON field 
                                 + Make the answer to the question as detailed as possible according to the quote.
                                 + Remove all the filler words from the quote 
+                                + Relove the secondary auxilary thoughts with no direct relation to the question.
                                 + Remove repetitions of thoughts from the quote
                                 + make the quote-based answer more suitable for a journal article than the quote itself.
                                 + Maintain the main sentences, style and wording of the quotes.
                                 + Maintain the approximate length of the  quote. 
-                                + Do not summarize the answer nor shrink it to more than two thirds of original quote.
+                                + Do not summarize the answer nor shrink it to less than two thirds of original quote.
                                 + The question should start with the interviewer label, example: 
                                 Interviewer: ................
                                 + The answer should start with the name of the interviewee that is already mentionned in the bellow quotes,  example: 
@@ -826,14 +835,14 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                     ]
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", 
+    model="gpt-4o-mini", 
     messages = message_text,
-    temperature=0.00000001,
-    max_tokens=3500,
-    top_p=0.00001,
+    temperature=0.1,
+    max_tokens=1000,
+    top_p=0.01,
     frequency_penalty=0,
     presence_penalty=0,
-    #response_format={ "type": "json_object" }
+    response_format={ "type": "json_object" }
     )
 
     return completion.choices[0].message.content
@@ -937,6 +946,7 @@ def correct_quotes_topic_assignment(quote, topics):
             4. The selected topic should be returned in the same way it was inputed (include topic number detail)
             5. Limit the topic selection to the list of topics attributed to each quote.
             6. Do not attribute to a quote a topic that doesnt exist in its related list of topics.
+            7. Do not start the topic by - 
             - Ensure the generated content is returned in a valid JSON format as illustarted bellow:
 
                 <OUTPUT FORMAT START>
@@ -992,7 +1002,7 @@ def correct_quotes_topic_assignment(quote, topics):
 
     completion = client.chat.completions.create(
 
-        model = "gpt-3.5-turbo-1106",
+        model = "gpt-4o-mini",
         temperature=0.4,
         max_tokens= 2000,
         frequency_penalty= 0,
@@ -1028,7 +1038,7 @@ def update_topic_assignment(redundant_quotes_dict, topics_dict):
     - topics_dict: The original dictionnary of topics with redunduncy
 
     Returns:
-    - updated_topic_assignment_dict = The original dictionnary of topics with redunduncy without redunduncy
+    - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
     """
     correct_topic_assign_dict = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
@@ -1076,6 +1086,13 @@ def update_topic_assignment(redundant_quotes_dict, topics_dict):
 
                 topic_to_remove_qoute_from =  list(set(redundant_quotes_dict[quote]) - set([correct_topic_assign_dict[quote_]]))
                 # print("/////////////////////////////////////////////")
+                # print("prev assing")
+                # print(redundant_quotes_dict[quote])
+                # print("new assign")
+                # print(correct_topic_assign_dict[quote_])
+                # print("topic_to_remove_qoute_from")
+                # print(topic_to_remove_qoute_from)
+                # print(correct_topic_assign_dict[quote_])
                 # print(quote[:20])
                 # print("-----------")
                 # print(quote_[:20])
@@ -1095,9 +1112,11 @@ def update_topic_assignment(redundant_quotes_dict, topics_dict):
                 # print("topic_to_remove_qoute_from")
 
                 for topic in topic_to_remove_qoute_from: 
-                    # print("removing Q ................")
+                    # print(".................before removing Q ................................")
+                    # print(topics_dict[topic]["quotes"])
                     topics_dict[topic]["quotes"].remove(quote)
-                    # print("After removing Q ................")
+                    # print(".................After removing Q .................................")
+                    # print(topics_dict[topic]["quotes"])
             except Exception as e:
                 print(f"Exception in the loop :  {e}")
                 # printing stack trace 
@@ -1154,16 +1173,20 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             
             <INSTRUCTIONS START> 
             - Reorder the Q/A pairs following the exact order of the topics. 
-            - Vary the style of the questios and make them flow continously to animate an interview.
+            - make the question direct and precise.
+            - Don't add "thank you" to the interviewer questions.
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
             - Do not say thank you in the questions
             - Do not use "Let's talk, Let's delve, ect" in the interviewer questions
-            - Connect each interviewer's question to the previous interviewee's answer by drawing a question from what the interviewee mentionned in his answer.
             - Remove repetitive Q/A pairs (keep only the first original instance)
-            - Do not mention the topics, the output must be a flowful interview transcript.
+            - Do not mention the topics, the output must be a flowful interview transcript of question/answer pairs.
             - Each interviewer intercation should contain a full question.
-            - Detail the interviewee's answers without modifying the original answer.
-
+            - Thank the interviewee at the end of the transcript for his time.
+            - Ensure the interviewee's response is always in the form of only one detailed paragraph.
+            - Ensure that the one paragraph answers reports all the important information and use the same wording in the quote.
+            - Ensure that for each QA in the input, there is a QA in the output which is the flowful interview transcript to be generated.
+            - Ensure that the QA pairs appear in the flawful interview transcript following the order of the topics in the input.
+            - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
             <INSTRUCTIONS END> 
 
             """
@@ -1172,7 +1195,7 @@ def make_transcript_flowful(ordered_topics, qa_draft):
 
 
     completion = client.chat.completions.create(
-    model="gpt-3.5-turbo-16k-0613", 
+    model="gpt-4o-mini", 
     messages = messages,
     temperature=0.6,
     max_tokens=3500,

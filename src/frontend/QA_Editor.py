@@ -20,8 +20,9 @@ sys.path.append(main_directory)
 sys.path.append("/mount/src/carlat-qa-editor-dev-env/src")
 sys.path.append("/mount/src/carlat-qa-editor-dev-env")
 
-# sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\caralt-qa-editor-adl - Copy\\src")
-# sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\caralt-qa-editor-adl - Copy\\src\\backend")
+
+# sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\carlat-qa-editor-dev-env\\src")
+# sys.path.append("C:\\Users\\dell\\Documents\\GitHub\\carlat-qa-editor-dev-env\\src\\backend")
 
 from backend.setup_vectorstore import *
 from backend.utility_functions import *
@@ -41,6 +42,8 @@ def update_file_params():
 
 
 def process_quote(topic, quote,  custom_qa_prompts):
+    # print("processing quote ----------------------------------")
+    # print(quote[:30])
     #  process each quote
     qa = get_qa_for_quote(quote, topic, custom_qa_prompts)
     qa_json = json.loads(qa)
@@ -247,13 +250,16 @@ with st.container(border=False):
                 my_bar.progress(progress, text=progress_text)
             my_bar.empty()
 
+            # print(st.session_state.topics_dict[topic]["quotes"])
+            # print("-----------------------------------------------------")
+
             st.session_state.btn_draft_download_status = False
             st.session_state.running = False
 
             # find redundant quotes to topic assingment
             redundant_quotes_dict = find_redundant_quotes(st.session_state.topics_dict)
 
-            # print("------------------------------------------------")
+            # print("----------------------RED--------------------------")
             # print(redundant_quotes_dict)
             # print("*************************************************")
             # print(st.session_state.topics_dict)
@@ -323,6 +329,7 @@ with st.container(border=False):
                     for future in completed_futures :
                         topic, quote = future_to_quote[future]
                         try:
+                            # print("This 1 QA result per quote...")
                             qa_json = future.result()
                             st.session_state.questions = qa_json["question"]
                             st.session_state.answers = qa_json["answer"]
