@@ -582,7 +582,7 @@ def parse_response_quotes(topics_dict):
 def quotes_topic_str(quote, topics):
 
     quotes_text = ""
-    quotes_text = quotes_text +  "<Quote> : \n"+ quote+"\n<START OF Topic Options> : \n-"+ "\n-".join(topics) +"\n<END OF Topic Options>\n"
+    quotes_text = quotes_text +  "<Quote> : \n"+ quote+"\n<START OF Topic Options> : \n-"+ "\n-".join(topics) +"\n<END OF Topic Options>\n\n\n"
 
     # print("555555555555555555555555555555555555555555555555555555555")
     # print(quotes_text)
@@ -1208,4 +1208,166 @@ def make_transcript_flowful(ordered_topics, qa_draft):
 
 
 
+def prepare_quotes_options_str(redundant_quotes_dict):
+    """
+    This function takes the dictionnary of the redundant quotes and returns a string made out of it.
+
+    Args:
+    - redundant_quotes_dict: dictionnary of quotes as keys and topics as values
+
+    Returns:
+    - string : The original dictionnary of topics in a string format
+    """
+    final_string = ""
+    for quote in redundant_quotes_dict.keys():
+        topics = redundant_quotes_dict[quote]
+        final_string += quotes_topic_str(quote, topics) 
+
+    return final_string
+
+
+def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topics):
+    """
+    This function takes the dictionnary of the redundant quotes and returns corrected quotes to topics assignment
+
+    Args:
+    - redundant_quotes_dict: dictionnary of quotes as keys and topics as values
+    - topics_dict: The original dictionnary of topics with redunduncy
+
+    Returns:
+    - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
+    """
+    quotes_options_string = prepare_quotes_options_str(redundant_quotes_dict)
+
+
+    messages = [
+
+    {
+        "role": "system",
+        "content": "You are a helpfull assistant and JSON formater that helps editors assign quotes to the most appropriate topic option."
+    },
+
+    {
+        "role": "user",
+        "content":
+        """
+
+
+        < START of List Topic >
+        """ +
+        "\n".join(topics)
+        + """
+        <END of List topics >
+
+        <START of quotes-topics options >
+        """ +
+        quotes_options_string
+        + """
+        <END of quotes-topics options >
+
+        Given the above quotes and a set of topic options for each quote do the following:
+
+        <INSTRUCTIONS START>
+
+        1. For each quote, identify the one and only one topic that each quote relates to the most from the list of options.
+        2. Return an dictionnary in such a way that each quote(key) has only one value(one topic, which is the one the quote relates to the most)
+        3. Return the quotes exactly as they were inputed, do not modify the quotes 
+        4. The selected topic should be returned in the same way it was inputed (include topic number detail)
+        5. Limit the topic selection to the list of topics attributed to each quote.
+        6. Do not attribute to a quote a topic that doesnt exist in its related list of topics.
+        7. Do not start the topic by - 
+        8. Ensure that each unique topic has at least one quote attributed to it.
+        9. Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
+        10. Ensure the generated content is returned in a valid JSON format as illustarted bellow:
+
+            <OUTPUT FORMAT START>
+
+            { // Opening curly brace
+
+            <quote text> : <topic>,
+            <quote text> : <topic>,
+            ...
+            
+            } // closing curly brace 
+            <OUTPUT FORMAT END>
+
+        - Ensure the generated content is returned in a valid JSON format
+        <INSTRUCTIONS END>
+
+        Follow the bellow example instance: 
+
+        
+        <START OF TOPIC SEELCTION EXAMPLE>
+        <Quote> :
+            Dr. Fong: This is a question I get essentially, four or five times a week, when people will say, do I have a gambling addiction? Or how do I know if my husband or wife or son or daughter is going to develop a gambling addiction? And I usually start with the following. First, I tell people gambling is part of something we do every day in our lives. It’s risk-taking. It’s decision-making. It’s going for rewards.
+
+            Essentially, though, the difference is that between someone who gambles regularly and socially versus someone with a (quote) gambling disorder, or a gambling addiction is that if their gambling continues to bring harmful consequences to their lives and they continue to engage in gambling, that’s an addiction. Furthermore, men and women with gambling disorder, they experience all sorts of things that people who gamble recreationally do not. They have urges and cravings that get in the way of them 
+            completing their daily lives. They have restrictions and limitations [00:05:00] on what they can do in life because of the consequences of gambling.
+
+            So, much like any other addictive disorder, it isn’t so much how much you gamble or how often or how much you’ve lost, it’s what are the consequences and what are the 
+            biological and psychological and social experiences it is for the person who is gambling? If they gamble in a way that’s harmful and distressing and emotionally painful, that’s an addiction. If they gamble and they have a lot of fun and they lose a lot of money, but it doesn’t impact their daily functioning, that’s not an addiction. That’s just a hobby.
+            <Topic Options For above quote> :
+            -Topic1: Definition of gambling addiction and its distinguishing factors from normal gambling.
+            -Topic3: Classification of gambling addiction as an addictive disorder.
+
+
+        LLM OUTPUT:
+
+        {
+            "Dr. Fong: This is a question I get essentially, four or five times a week, when people will say, do I have a gambling addiction? Or how do I know if my husband or wife or son or daughter is going to develop a gambling addiction? And I usually start with the following. First, I tell people gambling is part of something we do every day in our lives. It’s risk-taking. It’s decision-making. It’s going for rewards.
+
+            Essentially, though, the difference is that between someone who gambles regularly and socially versus someone with a (quote) gambling disorder, or a gambling addiction is that if their gambling continues to bring harmful consequences to their lives and they continue to engage in gambling, that’s an addiction. Furthermore, men and women with gambling disorder, they experience all sorts of things that people who gamble recreationally do not. They have urges and cravings that get in the way of them 
+            completing their daily lives. They have restrictions and limitations [00:05:00] on what they can do in life because of the consequences of gambling.
+
+            So, much like any other addictive disorder, it isn’t so much how much you gamble or how often or how much you’ve lost, it’s what are the consequences and what are the 
+            biological and psychological and social experiences it is for the person who is gambling? If they gamble in a way that’s harmful and distressing and emotionally painful, that’s an addiction. If they gamble and they have a lot of fun and they lose a lot of money, but it doesn’t impact their daily functioning, that’s not an addiction. That’s just a hobby."
+
+            :
+            "Topic1: Definition of gambling addiction and its distinguishing factors from normal gambling."
+        }
+
+
+        <END OF TOPIC SEELCTION EXAMPLE>
+        """
+    }
+    ]
+
+
+    completion = client.chat.completions.create(
+
+        model = "gpt-4o-mini",
+        temperature=0.4,
+        max_tokens= 16000,
+        frequency_penalty= 0,
+        presence_penalty= 0,
+        messages=messages,
+        response_format={"type": "json_object"}
+    )
+
+    try:
+        corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
+    except Exception as e:
+        print(e)
+        corrected_assignment = {}
     
+
+    for quote in redundant_quotes_dict.keys():
+        try:
+            pattern = re.escape(quote[:20])
+
+            # Find the topic using re
+            for q in corrected_assignment.keys():
+                if re.match(pattern, q[:20]) != None:
+                    quote_ = q
+                    break
+
+            topic_to_remove_qoute_from =  list(set(redundant_quotes_dict[quote]) - set([corrected_assignment[quote_]]))
+
+            for topic in topic_to_remove_qoute_from: 
+                topics_dict[topic]["quotes"].remove(quote)
+        except Exception as e:
+            print(f"Exception in the loop :  {e}")
+            # printing stack trace 
+            traceback.print_exc() 
+
+    return topics_dict
