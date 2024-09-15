@@ -286,10 +286,9 @@ def get_key_topics_quotes(transcript, custom_instructions):
     frequency_penalty=0,
     presence_penalty=0,
     stop=None,
-    response_format = { type: "json_schema"}
     )
 
-    topics_quotes = process_key_topics(completion.choices[0].message.content)
+    topics_quotes = json.loads(completion.choices[0].message.content)
     topics_list = topics_quotes.keys()
     topics = '\n\n'.join(topics_list)
     # remove leading and tailing white space
