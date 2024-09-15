@@ -246,6 +246,7 @@ def get_key_topics_quotes(transcript, custom_instructions):
                     + Avoid using a hyphen as the leading symbol for topics
                     + For each topic, attach the list of quotes that relate to it.
                     + The name of the topic in a nominal senstence of a maximum of 2 lines.\
+                    + Each quoote attributed to a topic must be the the full Q/A pair (questions of interviwer and answer of interviewee).
 
                     The final output should be in a json format like the template bellow:
                     {
