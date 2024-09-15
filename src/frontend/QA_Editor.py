@@ -244,7 +244,7 @@ with st.container(border=False):
                 
                 progress += int(progres_increase)
                 try:
-                    # st.session_state.topics_dict[topic] = {}
+                    st.session_state.topics_dict[topic] = {}
                     try:
                         st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
                         print(st.session_state.topics_dict[topic]["quotes"])
