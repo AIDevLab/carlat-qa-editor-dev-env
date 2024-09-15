@@ -244,17 +244,19 @@ def get_key_topics_quotes(transcript, custom_instructions):
                     + Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
                     + Limit the number of subtopics to the top 10 most dominant subtopics.\
                     + Avoid using a hyphen as the leading symbol for topics
-                    + For each topic, attach the list of quotes that relate to it.
                     + The name of the topic in a nominal senstence of a maximum of 2 lines.\
+                    + For each topic, attach the list of the full (end-to-end)quotes that relate to it.
+                    + Each quote is made of an interviewer question and the interview's full response.
                     + Each quote attributed to a topic must be the the full Q/A pair (questions of interviwer and answer of interviewee).
                     + The question of the interviewee must be full (from beginning to end) and must not be truncated.
+                    + Ensure no quote is truncated. The quote ends when another person takes the role of the speaker.
 
                     The final output should be in a json format like the template bellow:
                     {
-                    "<topic1>": [quote1, quote2, quote3, ...],
-                    "<topic2>": [quote1, quote2, quote3,...],
+                    "<topic1>": [full quote1, full quote2, full quote3, ...],
+                    "<topic2>": [full quote1, full quote2, full quote3,...],
                     ...
-                    "<topicn>": [quote1, quote2, quote3,...]
+                    "<topicn>": [full quote1, full quote2, full quote3,...]
                     }
 
                     
