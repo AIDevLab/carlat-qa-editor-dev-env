@@ -169,10 +169,10 @@ def get_key_topics(transcript, custom_instructions):
                     +"""
                     End of Transcript:
                     ----------------------------------------------------------------
-                    Given the above interview transcript, your role is to extract up to 8 key subtopics related to the main topic and display them as bullet points.\
-                    + The extracted key topic can be less than 8 but not more than 8.\
+                    Given the above interview transcript, your role is to extract up to 10 key subtopics related to the main topic and display them as bullet points.\
+                    + The extracted key topic can be less than 10  but not more than 10.\
                     + Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
-                    + Limit the number of subtopics to the top 6 to 8 most dominant subtopics.\
+                    + Limit the number of subtopics to the top 10 most dominant subtopics.\
                     + Avoid using a hyphen as the leading symbol for topics
                     
                     The key topics must always be in the following format:\

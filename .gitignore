@@ -14,3 +14,7 @@ src/backend/__pycache__/get_key_topics_.cpython-311.pyc
 src/frontend/__pycache__/__init__.cpython-311.pyc
 src/frontend/memorable_quotes.docx
 src/frontend/generated_draft.docx
+thrreads_simulation.py
+src/frontend/generated_draft.docx
+src/frontend/memorable_quotes.docx
+src/frontend/uploaded_file.docx

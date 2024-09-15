@@ -30,7 +30,7 @@ client = OpenAI(api_key=st.secrets["api_key"])
 
 def load_vectorstore(): 
     embeddings = OpenAIEmbeddings(model="text-embedding-3-large", api_key=st.secrets["api_key"])
-    docsearch = FAISS.load_local("//mount//src//caralt-qa-editor-adl//src//vectorstore", embeddings, allow_dangerous_deserialization= True)
+    docsearch = FAISS.load_local("//mount//src//carlat-qa-editor-dev-env//src//vectorstore", embeddings, allow_dangerous_deserialization= True)
     return docsearch
 
 
@@ -94,7 +94,7 @@ def similarity_search_score(query, docsearch, threshold=0.5):
 def get_quotes(topic):
     vect_store = load_vectorstore()
     # get the document chunks that sementically relate to the topic.
-    docs = similarity_search_score(topic, vect_store, threshold=0.70)
+    docs = similarity_search(topic, vect_store)
 
     # remove the interviewer's quotes
     _, interviewee_quotes = separte_speakers("\n".join(docs))
