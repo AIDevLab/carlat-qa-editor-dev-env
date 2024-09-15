@@ -256,21 +256,21 @@ with st.container(border=False):
             st.session_state.btn_draft_download_status = False
             st.session_state.running = False
 
-            # find redundant quotes to topic assingment
-            redundant_quotes_dict = find_redundant_quotes(st.session_state.topics_dict)
+            # # find redundant quotes to topic assingment
+            # redundant_quotes_dict = find_redundant_quotes(st.session_state.topics_dict)
 
-            # print("----------------------RED--------------------------")
-            # print(redundant_quotes_dict)
-            # print("*************************************************")
-            # print(st.session_state.topics_dict)
-            # print("------------------------------------------------")
-            topics = st.session_state.topics_dict.keys()
-            st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics)
-            # print("*************************************************")
-            # print(st.session_state.topics_dict)
-            # print("------------------------------------------------")
+            # # print("----------------------RED--------------------------")
+            # # print(redundant_quotes_dict)
+            # # print("*************************************************")
+            # # print(st.session_state.topics_dict)
+            # # print("------------------------------------------------")
+            # topics = st.session_state.topics_dict.keys()
+            # st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics)
+            # # print("*************************************************")
+            # # print(st.session_state.topics_dict)
+            # # print("------------------------------------------------")
 
-            # format the topics and quotes 
+            # # format the topics and quotes 
             st.session_state.quotes_text, st.session_state.all_quotes_list = parse_response_quotes(st.session_state.topics_dict)
             st.session_state.quotes_retreived = True
             st.session_state.topics_updated = False
