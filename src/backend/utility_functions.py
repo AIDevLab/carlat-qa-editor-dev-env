@@ -216,6 +216,87 @@ def get_key_topics(transcript, custom_instructions):
     return topics, topics_list
 
 
+def get_key_topics_quotes(transcript, custom_instructions):
+    """
+    extract key topics from an interview transcript
+
+    Args:
+        transcript (str): Theinterview transcript
+        custom_instructions (str): user's custom prompt 
+
+    Returns: list-like string of key topics
+    """
+    message_text = [{"role":"system","content":
+                    """You are a JSON formatter assistant. Your role is to follow the instructions and provide a JSON formatted response.
+                    """,
+
+                    "role":"user","content":
+                    """
+                    ----------------------------------------------------------------
+                    Start of Transcript:\
+                    """ 
+                    +" " + transcript
+                    +"""
+                    End of Transcript:
+                    ----------------------------------------------------------------
+                    Given the above interview transcript, your role is to extract up to 10 key subtopics related to the main topic and display them as bullet points.\
+                    + The extracted key topic can be less than 10  but not more than 10.\
+                    + Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
+                    + Limit the number of subtopics to the top 10 most dominant subtopics.\
+                    + Avoid using a hyphen as the leading symbol for topics
+                    + For each topic, attach the list of quotes that relate to it.
+                    
+                    The key topics must always be in the following format:\
+
+                    Topic1: The name of the topic in a nominal senstence of a maximum of 2 lines.\
+                    Topic2: The name of the topic in a nominal senstence of a maximum of 2 lines.\
+                    Topic3: The name of the topic in a nominal senstence of a maximum of 2 lines.\
+                    etc. \
+
+                    Example :\
+
+                    Topic1: Definition of gambling addiction and its distinguishing factors from normal gambling.\
+                    Topic2: Prevalence rates and under-recognition of gambling disorder.\
+                    Topic3: Classification of gambling addiction as an addictive disorder\
+                    etc. 
+
+                    The final output should be in a json format like the template bellow:
+                    {
+                    "topic1": [quote1, quote2, quote3, ...],
+                    "topic2": [quote1, quote2, quote3,...],
+                    ...
+                    "quoten": [quote1, quote2, quote3,...]
+                    }
+
+                    ## Additional instructions:
+ 
+                    """
+                    +
+                    custom_instructions
+                    
+                    }
+
+                    ]
+
+    completion = client.chat.completions.create(
+    model="gpt-4o-mini", 
+    messages=message_text,
+    temperature=0.0001,
+    max_tokens=8000,
+    frequency_penalty=0,
+    presence_penalty=0,
+    stop=None,
+    response_format = { type: "json_schema"}
+    )
+
+    topics_quotes = process_key_topics(completion.choices[0].message.content)
+    topics_list = topics_quotes.keys()
+    topics = '\n\n'.join(topics_list)
+    # remove leading and tailing white space
+    topics = topics.strip()
+    return topics, topics_list, topics_quotes
+
+
 def get_qa(quotes, topic, custom_prompt):
     """
     Given the topic and the associated quotes from an interview generate Q/A pairs.

@@ -145,6 +145,10 @@ if "custom_topics_prompt" not in st.session_state:
 if "custom_qa_prompts" not in st.session_state:
     st.session_state.custom_qa_prompts = ""
 
+
+if "topics_quotes" not in st.session_state:
+    st.session_state.topics_quotes = {}
+
 st.markdown(
     """
     <style>
@@ -208,7 +212,7 @@ with st.container(border=False):
             st.warning("Please load a document first.")
         else:
             with st.spinner("Generation in progress"):
-                st.session_state.topics, st.session_state.list_topics = get_key_topics(st.session_state.file_content, st.session_state.custom_topics_prompt)
+                st.session_state.topics, st.session_state.list_topics, st.session_state.topics_quotes= get_key_topics_quotes(st.session_state.file_content, st.session_state.custom_topics_prompt)
                 st.session_state.keywords_extracted = True
     if st.session_state.keywords_extracted == True:
         topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
@@ -240,9 +244,9 @@ with st.container(border=False):
                 
                 progress += int(progres_increase)
                 try:
-                    st.session_state.topics_dict[topic] = {}
+                    # st.session_state.topics_dict[topic] = {}
                     try:
-                        st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
+                        st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
                         print(st.session_state.topics_dict[topic]["quotes"])
                     except Exception:
                         print("EXCEPTION")
@@ -419,5 +423,6 @@ with st.container(border=False):
         st.session_state.quotes_retreived = False
         st.session_state.final_draft = ""
         st.session_state.memorable_quotes = []
+        st.session_state.topics_quotes = {}
         st.empty()
         st.rerun()
