@@ -266,9 +266,9 @@ with st.container(border=False):
             # # print("------------------------------------------------")
             # topics = st.session_state.topics_dict.keys()
             # st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics)
-            # # print("*************************************************")
-            # # print(st.session_state.topics_dict)
-            # # print("------------------------------------------------")
+            print("*************************************************")
+            print(st.session_state.topics_dict)
+            print("------------------------------------------------")
 
             # # format the topics and quotes 
             st.session_state.quotes_text, st.session_state.all_quotes_list = parse_response_quotes(st.session_state.topics_dict)
