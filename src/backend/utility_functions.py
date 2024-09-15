@@ -250,8 +250,10 @@ def get_key_topics_quotes(transcript, custom_instructions):
                     + Each quote attributed to a topic must be the the full Q/A pair (questions of interviwer and answer of interviewee).
                     + The question of the interviewee must be full (from beginning to end) and must not be truncated.
                     + Ensure no quote is truncated. The quote ends when another person takes the role of the speaker.
+                    + Ensure each quote (Q/A pair) from the transcript is attached to one and only one of the topics.
+                    + Assign each QA pair from the transcript to a topic.
 
-                    The final output should be in a json format like the template bellow:
+                    The final output must be in a json format like the template bellow:
                     {
                     "<topic1>": [full quote1, full quote2, full quote3, ...],
                     "<topic2>": [full quote1, full quote2, full quote3,...],
