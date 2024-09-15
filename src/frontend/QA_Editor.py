@@ -27,7 +27,7 @@ sys.path.append("/mount/src/carlat-qa-editor-dev-env")
 from backend.setup_vectorstore import *
 from backend.utility_functions import *
 
-from backend.utility_functions import *
+from backend.utility_functions import get_key_topics_quotes
 from backend.retreive import *
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
