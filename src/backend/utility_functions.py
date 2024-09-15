@@ -245,28 +245,25 @@ def get_key_topics_quotes(transcript, custom_instructions):
                     + Limit the number of subtopics to the top 10 most dominant subtopics.\
                     + Avoid using a hyphen as the leading symbol for topics
                     + For each topic, attach the list of quotes that relate to it.
-                    
-                    The key topics must always be in the following format:\
-
-                    Topic1: The name of the topic in a nominal senstence of a maximum of 2 lines.\
-                    Topic2: The name of the topic in a nominal senstence of a maximum of 2 lines.\
-                    Topic3: The name of the topic in a nominal senstence of a maximum of 2 lines.\
-                    etc. \
-
-                    Example :\
-
-                    Topic1: Definition of gambling addiction and its distinguishing factors from normal gambling.\
-                    Topic2: Prevalence rates and under-recognition of gambling disorder.\
-                    Topic3: Classification of gambling addiction as an addictive disorder\
-                    etc. 
+                    + The name of the topic in a nominal senstence of a maximum of 2 lines.\
 
                     The final output should be in a json format like the template bellow:
                     {
-                    "topic1": [quote1, quote2, quote3, ...],
-                    "topic2": [quote1, quote2, quote3,...],
+                    "<topic1>": [quote1, quote2, quote3, ...],
+                    "<topic2>": [quote1, quote2, quote3,...],
                     ...
-                    "quoten": [quote1, quote2, quote3,...]
+                    "<topicn>": [quote1, quote2, quote3,...]
                     }
+
+                    
+                    Example :\
+                    {
+                    Definition of gambling addiction and its distinguishing factors from normal gambling : [list of quotes]
+                    Prevalence rates and under-recognition of gambling disorder: [list of quotes]
+                    Classification of gambling addiction as an addictive disorder: [list of quotes]
+                    etc. 
+                    }
+
 
                     ## Additional instructions:
  
