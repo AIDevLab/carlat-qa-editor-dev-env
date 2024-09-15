@@ -264,6 +264,7 @@ def get_key_topics_quotes(transcript, custom_instructions):
                     etc. 
                     }
 
+                    
 
                     ## Additional instructions:
  
