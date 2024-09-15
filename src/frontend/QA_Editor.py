@@ -234,12 +234,18 @@ with st.container(border=False):
             st.session_state.topics_dict = {}
 
             for (topic, i) in zip(tqdm(st.session_state.list_topics),range(len(st.session_state.list_topics))):
+                print("//////////////////////////////////////////////////")
+                print(topic)
+                print("-----")
+                
                 progress += int(progres_increase)
                 try:
                     st.session_state.topics_dict[topic] = {}
                     try:
                         st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
+                        print(st.session_state.topics_dict[topic]["quotes"])
                     except Exception:
+                        print("EXCEPTION")
                         st.session_state.topics_dict[topic]["quotes"] = []
                         traceback.print_exc() 
                 except Exception:
