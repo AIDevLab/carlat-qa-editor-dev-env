@@ -1363,6 +1363,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Ensure each topic from the list is assigned to at least one quote.
         - Make sure that every topic appearing in the list of options is attributed to at least one quote.
         - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
+        - Mandatory: Each topic from the list must be assigned to at least one quote in the output.
+        - If a topic is not naturally assignable based on the relevance to any quote, select a reasonable quote for that topic to ensure that no topic is left out.
+        - Make sure that every topic appearing in the list of options is attributed to at least one quote.
         - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
@@ -1408,7 +1411,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     completion = client.chat.completions.create(
 
         model = "gpt-4o-mini",
-        temperature=0.7,
+        temperature=0.1,
         max_tokens= 16000,
         frequency_penalty= 0,
         presence_penalty= 0,
