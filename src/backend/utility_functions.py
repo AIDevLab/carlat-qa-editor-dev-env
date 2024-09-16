@@ -1335,20 +1335,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         "content":
         """
 
-
-        < START of List Topic >
-        """ +
-        "\n".join(topics)
-        + """
-        <END of List topics >
-
-        <START of quotes-topics options >
-        """ +
-        quotes_options_string
-        + """
-        <END of quotes-topics options >
-
-        Given the above quotes and a set of topic options for each quote do the following:
+        Given the bellow quotes and a set of topic options for each quote do the following:
 
         <INSTRUCTIONS START>
 
@@ -1404,6 +1391,21 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
         <END OF TOPIC SEELCTION EXAMPLE>
        
+        
+        
+
+        < START of List Topic >
+        """ +
+        "\n".join(topics)
+        + """
+        <END of List topics >
+
+        <START of quotes-topics options >
+        """ +
+        quotes_options_string
+        + """
+        <END of quotes-topics options >
+
         """
     }
     ]
