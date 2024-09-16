@@ -1411,6 +1411,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
 
         <END OF TOPIC SEELCTION EXAMPLE>
+        Pay Extra attention to the following instruction:
+        + Ensure that each unique topic in the output dictionary has at least one quote attributed to it.
+        + Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
         """
     }
     ]
@@ -1419,7 +1422,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     completion = client.chat.completions.create(
 
         model = "gpt-4o-mini",
-        temperature=0.4,
+        temperature=0.7,
         max_tokens= 16000,
         frequency_penalty= 0,
         presence_penalty= 0,
