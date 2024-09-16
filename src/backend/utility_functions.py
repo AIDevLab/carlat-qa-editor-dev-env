@@ -1321,6 +1321,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
     """
     quotes_options_string = prepare_quotes_options_str(redundant_quotes_dict)
+    print("555555555555555555555555555555555555")
+    print(quotes_options_string)
+    print("555555555555555555555555555555555555")
 
 
     messages = [
