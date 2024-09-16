@@ -285,7 +285,7 @@ def get_key_topics_quotes(transcript, custom_instructions):
     completion = client.chat.completions.create(
     model="gpt-4o-mini", 
     messages=message_text,
-    temperature=0.0001,
+    temperature=0.7,
     max_tokens=8000,
     frequency_penalty=0,
     presence_penalty=0,
