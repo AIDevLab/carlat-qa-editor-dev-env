@@ -248,7 +248,6 @@ with st.container(border=False):
                     try:
                         #st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
                         st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
-                        print(st.session_state.topics_dict[topic]["quotes"])
                     except Exception:
                         print("EXCEPTION")
                         st.session_state.topics_dict[topic]["quotes"] = []

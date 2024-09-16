@@ -95,10 +95,12 @@ def get_quotes(topic):
     vect_store = load_vectorstore()
     # get the document chunks that sementically relate to the topic.
     docs = similarity_search(topic, vect_store)
-    print("*********")
-    print(len(docs))
-    print("*********")
 
     # remove the interviewer's quotes
     _, interviewee_quotes = separte_speakers("\n".join(docs))
+    print(len(docs))
+    print("*********")
+    print(len(interviewee_quotes))
+    print("*********")
+
     return  interviewee_quotes
