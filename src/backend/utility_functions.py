@@ -1379,6 +1379,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
          Pay Extra attention to the following instruction:
         + Ensure that each unique topic in the output dictionary has at least one quote attributed to it.
         + Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
+        + Do not cut off the quotes, each quote must be the full, end-to-end quote. Don't truncate the quotes.
         <INSTRUCTIONS END>
 
         Follow the bellow example instance: 
