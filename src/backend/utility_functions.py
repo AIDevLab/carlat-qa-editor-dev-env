@@ -1362,6 +1362,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Ensure that the topic does not start with a dash ("-").
         - Ensure each topic from the list is assigned to at least one quote.
         - Make sure that every topic appearing in the list of options is attributed to at least one quote.
+        - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
         - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
