@@ -1278,7 +1278,7 @@ def make_transcript_flowful(ordered_topics, qa_draft):
 
 
     completion = client.chat.completions.create(
-    model="gpt-4o-mini", 
+    model="gpt-4o", 
     messages = messages,
     temperature=0.5,
     max_tokens=5000,
@@ -1353,7 +1353,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Mandatory: Each topic from the list must be assigned to at least one quote in the output.
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
         - Make sure that every topic appearing in the list of options is attributed to at least one quote.
-        - all the topics must appear in the values of the generated output. frol topic 1 to the last topic.
+        - all the topics must appear in the values of the generated output. from topic 1 to the last topic.
         - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
