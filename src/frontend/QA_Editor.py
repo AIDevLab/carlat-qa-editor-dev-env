@@ -212,7 +212,7 @@ with st.container(border=False):
             st.warning("Please load a document first.")
         else:
             with st.spinner("Generation in progress"):
-                st.session_state.topics, st.session_state.list_topics, st.session_state.topics_quotes= get_key_topics_quotes(st.session_state.file_content, st.session_state.custom_topics_prompt)
+                st.session_state.topics, st.session_state.list_topics = get_key_topics(st.session_state.file_content, st.session_state.custom_topics_prompt)
                 st.session_state.keywords_extracted = True
     if st.session_state.keywords_extracted == True:
         topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
@@ -246,7 +246,8 @@ with st.container(border=False):
                 try:
                     st.session_state.topics_dict[topic] = {}
                     try:
-                        st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
+                        #st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
+                        st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
                         print(st.session_state.topics_dict[topic]["quotes"])
                     except Exception:
                         print("EXCEPTION")
