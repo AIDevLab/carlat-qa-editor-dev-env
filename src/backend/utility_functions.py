@@ -1278,7 +1278,7 @@ def make_transcript_flowful(ordered_topics, qa_draft):
 
 
     completion = client.chat.completions.create(
-    model="gpt-4o", 
+    model="gpt-4o-mini", 
     messages = messages,
     temperature=0.5,
     max_tokens=5000,
@@ -1413,7 +1413,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
     completion = client.chat.completions.create(
 
-        model = "gpt-4o-mini",
+        model = "gpt-4o",
         temperature=0.1,
         max_tokens= 16000,
         frequency_penalty= 0,
