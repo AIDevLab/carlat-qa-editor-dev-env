@@ -1352,35 +1352,17 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
         <INSTRUCTIONS START>
 
-        1. For each quote, identify the one and only one topic that each quote relates to the most from the list of options.
-        2. Return an dictionnary in such a way that each quote(key) has only one value(one topic, which is the one the quote relates to the most)
-        3. Return the quotes exactly as they were inputed, do not modify the quotes 
-        4. The selected topic should be returned in the same way it was inputed (include topic number detail)
-        5. Limit the topic selection to the list of topics attributed to each quote.
-        6. Do not attribute to a quote a topic that doesnt exist in its related list of topics.
-        7. Do not start the topic by - 
-        8. Ensure that each unique topic has at least one quote attributed to it.
-        9. Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
-        10. Ensure the generated content is returned in a valid JSON format as illustarted bellow:
 
-            <OUTPUT FORMAT START>
-
-            { // Opening curly brace
-
-            <quote text> : <topic>,
-            <quote text> : <topic>,
-            ...
-            
-            } // closing curly brace 
-            <OUTPUT FORMAT END>
-
-        - Ensure the generated content is returned in a valid JSON format
-        - Ensure that the the topics(the dictionnary values) cover the entire list of topics above
-         Pay Extra attention to the following instruction:
-        + Ensure that each unique topic in the output dictionary has at least one quote attributed to it.
-        + Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
-        + Do not cut off the quotes, each quote must be the full, end-to-end quote. Don't truncate the quotes.
-        <INSTRUCTIONS END>
+        - For each quote, select the single topic from the provided list that is most closely related to that quote.
+        - Return the result as a dictionary where each quote (key) is paired with one topic (value)—the topic most relevant to the quote.
+        - Preserve the quotes exactly as they are. Do not modify or truncate any quote.
+        - Return the selected topics exactly as provided, including topic numbers if they are part of the topic.
+        - Limit the topic assignment strictly to the options listed for each quote.
+        - Do not assign a topic to a quote if it is not part of the relevant topic list for that specific quote.
+        - Ensure that the topic does not start with a dash ("-").
+        - Ensure each topic from the list is assigned to at least one quote.
+        - Make sure that every topic appearing in the list of options is attributed to at least one quote.
+        - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
 
