@@ -1375,6 +1375,10 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             <OUTPUT FORMAT END>
 
         - Ensure the generated content is returned in a valid JSON format
+        - Ensure that the the topics(the dictionnary values) cover the entire list of topics above
+         Pay Extra attention to the following instruction:
+        + Ensure that each unique topic in the output dictionary has at least one quote attributed to it.
+        + Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
         <INSTRUCTIONS END>
 
         Follow the bellow example instance: 
@@ -1411,9 +1415,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
 
         <END OF TOPIC SEELCTION EXAMPLE>
-        Pay Extra attention to the following instruction:
-        + Ensure that each unique topic in the output dictionary has at least one quote attributed to it.
-        + Ensure that at least one quote is attributed to all topics that appeared in the list of topics defined by tags.
+       
         """
     }
     ]
