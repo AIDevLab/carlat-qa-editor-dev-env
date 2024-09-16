@@ -1321,9 +1321,6 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
     """
     quotes_options_string = prepare_quotes_options_str(redundant_quotes_dict)
-    print("555555555555555555555555555555555555")
-    print(quotes_options_string)
-    print("555555555555555555555555555555555555")
 
 
     messages = [
@@ -1367,8 +1364,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Make sure that every topic appearing in the list of options is attributed to at least one quote.
         - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
         - Mandatory: Each topic from the list must be assigned to at least one quote in the output.
-        - If a topic is not naturally assignable based on the relevance to any quote, select a reasonable quote for that topic to ensure that no topic is left out.
+        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
         - Make sure that every topic appearing in the list of options is attributed to at least one quote.
+        - all the topics must appear in the values of the generated output. frol topic 1 to the last topic.
         - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
