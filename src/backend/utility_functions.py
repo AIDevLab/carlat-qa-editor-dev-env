@@ -949,6 +949,8 @@ def find_redundant_quotes(quotes_dict):
 
     duplicates = {}
     quotes = []
+    permanent_assigned_topics = []
+
     # get all the quotes from the dictionary
     topics = quotes_dict.keys() 
     for topic in topics:
@@ -976,11 +978,12 @@ def find_redundant_quotes(quotes_dict):
     for key in duplicate_keys:
         if len(duplicates[key]) == 1:
             to_be_del.append(key)
+            permanent_assigned_topics.append(duplicates[key][0])
 
     for k in to_be_del:
         del duplicates[k]
 
-    return duplicates
+    return duplicates, permanent_assigned_topics
 
 
 def correct_quotes_topic_assignment(quote, topics):
@@ -1309,18 +1312,22 @@ def prepare_quotes_options_str(redundant_quotes_dict):
     return final_string
 
 
-def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topics):
+def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topics, permanent_assigned_topics):
     """
     This function takes the dictionnary of the redundant quotes and returns corrected quotes to topics assignment
 
     Args:
     - redundant_quotes_dict: dictionnary of quotes as keys and topics as values
     - topics_dict: The original dictionnary of topics with redunduncy
+    - permanent_assigned_topics: list of topics that already have quotes assigned to without duplications
+    - topics: list of total topics 
 
     Returns:
     - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
     """
     quotes_options_string = prepare_quotes_options_str(redundant_quotes_dict)
+
+    topics = set(topics) - set(permanent_assigned_topics)
 
 
     messages = [
