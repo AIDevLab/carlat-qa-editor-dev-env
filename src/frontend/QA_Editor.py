@@ -279,7 +279,7 @@ with st.container(border=False):
             st.session_state.running = False
 
             # find redundant quotes to topic assingment
-            redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict, st.session_state.list_topics,)
+            redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
             print("*************************************************")
             print("permanent_assigned_topics")
             print(permanent_assigned_topics)
