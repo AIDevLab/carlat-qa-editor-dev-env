@@ -174,6 +174,7 @@ def get_key_topics(transcript, custom_instructions):
                     + Each subtopic must be as elementary as possible such as (definition of ...., symptoms of ...., tretment of ...., ect)\
                     + Limit the number of subtopics to the top 10 most dominant subtopics.\
                     + Avoid using a hyphen as the leading symbol for topics
+                    + Ensure that for each extrcated topic there is at least one end-to-end quote (Q/A pair) that can be attributed to it.
                     
                     The key topics must always be in the following format:\
 
