@@ -1354,14 +1354,10 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Limit the topic assignment strictly to the options listed for each quote.
         - Do not assign a topic to a quote if it is not part of the relevant topic list for that specific quote.
         - Ensure that the topic does not start with a dash ("-").
-        - Ensure each topic from the list is assigned to at least one quote.
-        - Make sure that every topic appearing in the list of options is attributed to at least one quote.
+        - Ensure each topic from the topic list above is assigned to at least one quote.
         - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
-        - Mandatory: Each topic from the list must be assigned to at least one quote in the output.
+        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Make sure that every topic appearing in the list of options is attributed to at least one quote.
-        - Assing at least one quote to topic1, topic2, topic3 untill the last topic
-        - all the topics must appear in the values of the generated output. from topic 1 to the last topic.
         - Format the output as a valid JSON object, as shown below:
 
         Follow the bellow example instance: 
@@ -1400,18 +1396,15 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         <END OF TOPIC SELCTION EXAMPLE>
 
         <START OF TOPIC SELCTION EXAMPLE>
+        topics list : from topic 1 to topic4
+        The output:
 
                 {
             "Dr. Smith: Eating a balanced diet is crucial for maintaining overall health. It involves consuming a variety of foods from all the food groups in the right proportions. A balanced diet provides essential nutrients that the body needs to function optimally.": "Topic1: Importance of a balanced diet for overall health.",
             "Dr. Smith: While fruits and vegetables are key components of a healthy diet, it's also important to include whole grains and lean proteins. These provide necessary fiber, vitamins, and minerals that support bodily functions and energy levels.": "Topic2: Essential components of a healthy diet.",
             "Dr. Smith: Hydration is a critical aspect of nutrition. Drinking enough water daily helps regulate body temperature, keeps joints lubricated, and supports overall cellular function.": "Topic3: Importance of hydration in maintaining health.",
             "Dr. Smith: Reducing the intake of processed foods and sugars can significantly lower the risk of chronic diseases such as diabetes and heart disease. Opting for whole, unprocessed foods is a better choice for long-term health.": "Topic4: Impact of processed foods on long-term health.",
-            "Dr. Smith: Nutritional needs can vary based on age, gender, and activity level. For instance, athletes may require more protein and calories, while older adults may need more calcium and vitamin D.": "Topic5: How nutritional needs vary by age and lifestyle.",
-            "Dr. Smith: Meal planning can help in maintaining a healthy diet. Preparing meals in advance ensures that you have nutritious options available and helps avoid unhealthy last-minute choices.": "Topic6: Benefits of meal planning for maintaining a healthy diet.",
-            "Dr. Smith: While dietary supplements can be beneficial, they should not replace a healthy diet. Supplements are meant to fill gaps, not substitute for the variety of nutrients obtained from whole foods.": "Topic7: Role of dietary supplements in nutrition.",
-            "Dr. Smith: Portion control is an important aspect of healthy eating. Being mindful of portion sizes can help prevent overeating and contribute to maintaining a healthy weight.": "Topic8: Importance of portion control in healthy eating.",
-            "Dr. Smith: Special diets, such as vegan or gluten-free, can be healthful if properly planned. It's important to ensure that these diets are balanced and include all necessary nutrients.": "Topic9: Managing special diets for health.",
-            "Dr. Smith: Understanding food labels is crucial for making informed dietary choices. Labels provide information about nutritional content, helping individuals choose healthier options and avoid excessive intake of certain nutrients.": "Topic10: How to use food labels to make healthier choices."
+
         }
         <END OF TOPIC SELCTION EXAMPLE>
 
