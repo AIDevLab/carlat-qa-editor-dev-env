@@ -175,6 +175,7 @@ def get_key_topics(transcript, custom_instructions):
                     + Limit the number of subtopics to the top 10 most dominant subtopics.\
                     + Avoid using a hyphen as the leading symbol for topics
                     + Ensure that for each extrcated topic there is at least one end-to-end quote (Q/A pair) that can be attributed to it.
+                    + Dont add the quotes to the output.
                     
                     The key topics must always be in the following format:\
 
