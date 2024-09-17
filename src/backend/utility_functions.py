@@ -983,7 +983,7 @@ def find_redundant_quotes(quotes_dict):
     for k in to_be_del:
         del duplicates[k]
 
-    return duplicates, permanent_assigned_topics
+    return duplicates, set(permanent_assigned_topics)
 
 
 def correct_quotes_topic_assignment(quote, topics):
