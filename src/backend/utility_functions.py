@@ -1360,9 +1360,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
         - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Ensure the all the quotes are in their full context. No truncation should occur. The quotes starts by the interviewee' name and must end with the last word that the interviewee said.
-        - Format the output as a valid JSON object, as shown below:
-
+        - Ensure that all the quotes in the generated response are in their full context. 
+        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
+        - Format the output as a valid JSON object, preserve the input format.
         Follow the bellow example instance: 
 
         
@@ -1513,7 +1513,8 @@ def topic_assignment_validation(topics_dict, topics):
         - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
         - Ensure that each quote is attributed to one and only one topic.
-        - Ensure the all the quotes are in their full context. No truncation should occur. The quotes starts by the interviewee' name and must end with the last word that the interviewee said.
+        - Ensure that all the quotes in the generated response are in their full context. 
+        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
         - Format the output as a valid JSON object, preserve the input format.
 
             
