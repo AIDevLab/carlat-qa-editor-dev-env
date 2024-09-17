@@ -268,6 +268,11 @@ with st.container(border=False):
 
             # find redundant quotes to topic assingment
             redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
+            print("*************************************************")
+            print(permanent_assigned_topics)
+            print(permanent_assigned_topics)
+            print("------------------------------------------------")
+
 
             # # print("----------------------RED--------------------------")
             # # print(redundant_quotes_dict)
@@ -276,9 +281,6 @@ with st.container(border=False):
             # # print("------------------------------------------------")
             topics = st.session_state.topics_dict.keys()
             st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-            print("*************************************************")
-            print(st.session_state.topics_dict)
-            print("------------------------------------------------")
 
             # # format the topics and quotes 
             st.session_state.quotes_text, st.session_state.all_quotes_list = parse_response_quotes(st.session_state.topics_dict)
