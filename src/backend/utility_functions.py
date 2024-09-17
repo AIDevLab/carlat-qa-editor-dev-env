@@ -1471,3 +1471,87 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             traceback.print_exc() 
 
     return topics_dict
+
+
+
+
+    
+def topic_assignment_validation(topics_dict, topics):
+    """
+    This function takes the dictionnary of the quotes and returns corrected quotes to topics assignment
+
+    Args:
+    - redundant_quotes_dict: dictionnary of quotes as keys and topics as values
+    - topics_dict: The original dictionnary of topics with redunduncy
+    - permanent_assigned_topics: list of topics that already have quotes assigned to without duplications
+    - topics: list of total topics 
+
+    Returns:
+    - updated_topic_assignment_dict = The original dictionnary of topics  without redunduncy
+    """
+
+
+    messages = [
+
+    {
+        "role": "system",
+        "content": "You are a helpfull assistant and JSON formater that helps editors assign quotes to the most appropriate topic option."
+    },
+
+    {
+        "role": "user",
+        "content":
+        """
+
+        Given the bellow quotes and a set of topic options for each quote do the following:
+
+        <INSTRUCTIONS START>
+
+
+        - Ensure each topic from the topic list above is assigned to at least one quote.
+        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
+        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
+        - Ensure that each quote is attributed to one and only one topic.
+        - Format the output as a valid JSON object, preserve the input format.
+
+            
+        
+
+        < START of List Topic >
+        """ +
+        "\n".join(topics)
+        + """
+        <END of List topics >
+
+        <START of quotes-topics options >
+        """ +
+        str(topics_dict)
+        + """
+        <END of quotes-topics options >
+
+        """
+    }
+    ]
+
+
+    completion = client.chat.completions.create(
+
+        model = "gpt-4o-mini",
+        temperature=0.1,
+        max_tokens= 16000,
+        frequency_penalty= 0,
+        presence_penalty= 0,
+        messages=messages,
+        response_format={"type": "json_object"}
+    )
+
+    try:
+        corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
+        print("CORRECT ASSING")
+        print(corrected_assignment)
+    except Exception as e:
+        print(e)
+        corrected_assignment = {}
+    
+
+    return  corrected_assignment
