@@ -102,5 +102,5 @@ def get_quotes(topic):
     print("*********")
     print(len(interviewee_quotes))
     print("*********")
-    interviewee_quotes = [q for q in interviewee_quotes if len(q) > 70]
+    interviewee_quotes = [q for q in interviewee_quotes if len(q) > 200]
     return  interviewee_quotes

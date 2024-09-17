@@ -1557,3 +1557,26 @@ def topic_assignment_validation(topics_dict, topics):
     
 
     return  corrected_assignment
+
+
+
+def replace_short_quote_by_original(quotes_dictionnary,  all_quotes_set):
+
+    """
+    replace the truncated quotes by the orginal full context quotes
+    Args:
+    - quotes_dictionnary: the dictionary of quotes and topics
+    - all_quotes_set: the set of the original full quotes
+
+    Return:
+    - quotes_dictionnary: after updating the quotes 
+    """
+
+    for quote in quotes_dictionnary.keys():
+        len_quote = len(quote)
+        for q in all_quotes_set:
+            if re.match(quote, q[:len_quote]):
+                quotes_dictionnary[q] = quotes_dictionnary.pop(quote)
+
+
+    return quotes_dictionnary
