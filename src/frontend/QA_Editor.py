@@ -226,7 +226,7 @@ with st.container(border=False):
                 st.session_state.topics, st.session_state.list_topics = get_key_topics(st.session_state.file_content, st.session_state.custom_topics_prompt)
                 st.session_state.keywords_extracted = True
     if st.session_state.keywords_extracted == True:
-        topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
+        #topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
         # Sample data
         # data = {
         #     "Topic": st.session_state.list_topics  ,
