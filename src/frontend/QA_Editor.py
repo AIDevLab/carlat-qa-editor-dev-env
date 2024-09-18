@@ -265,25 +265,17 @@ with st.container(border=False):
             col1, col2, col3, col4 = st.columns(4)
             
             # Editable Topic field
-            st.session_state.list_topics[i] = col1.text_input(f"Topic {i+1}", value=st.session_state.list_topics[i], key=f"topic_{i}")
+            st.session_state.list_topics[i] = col1.text_input( value=st.session_state.list_topics[i], key=f"topic_{i}")
             
             # Editable Importance Order field
-            st.session_state.importance_order[i] = col2.number_input(f"Importance Order {i+1}", value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
+            st.session_state.importance_order[i] = col2.number_input( value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
             
             # Editable Flow Order field
-            st.session_state.flow_order[i] = col3.number_input(f"Flow Order {i+1}", value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
+            st.session_state.flow_order[i] = col3.number_input( value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
             
             # Editable Appearance Percentage field
-            st.session_state.appearance_percentage[i] = col4.number_input(f"Appearance Percentage {i+1}", value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
+            st.session_state.appearance_percentage[i] = col4.number_input(value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
 
-        # Optional: Display the modified table for review
-        st.write("### Updated Table Data:")
-        st.write({
-            "Topic": st.session_state.list_topics,
-            "Importance Order": st.session_state.importance_order,
-            "Flow Order": st.session_state.flow_order,
-            "Appearance Percentage": st.session_state.appearance_percentage
-        })
 
         if st.button("update key topics"):
             st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
