@@ -192,22 +192,6 @@ with st.container(border=False):
     st.divider()
 
 
-    # Sample data
-    data = {
-        "Topic": ["Topic 1", "Topic 2", "Topic 3"],
-        "Importance Order": [1, 2, 3],
-        "Flow Order": [2, 1, 3],
-        "Appearance Percentage": [25, 50, 75]
-    }
-
-    # Create DataFrame
-    df = pd.DataFrame(data)
-
-    # Display the table in Streamlit
-    st.title("Topics Overview")
-    st.table(df)  # You can use st.dataframe(df) for more interactivity
-
-
     file = st.file_uploader(label="", type=[".docx"], key="upload", on_change = update_file_params)
     if is_file_loaded(file) and st.session_state.file_uploaded == False:
         with st.spinner("Loading in progress"):
@@ -243,6 +227,22 @@ with st.container(border=False):
                 st.session_state.keywords_extracted = True
     if st.session_state.keywords_extracted == True:
         topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
+        # Sample data
+        data = {
+            "Topic": st.session_state.topics ,
+            "Importance Order": [1]*10,
+            "Flow Order": [2]*10,
+            "Appearance Percentage": [1]*10
+        }
+
+        # Create DataFrame
+        df = pd.DataFrame(data)
+
+        # Display the table in Streamlit
+        st.title("Topics Overview")
+        st.table(df)  # You can use st.dataframe(df) for more interactivity
+
+
         if st.button("update key topics"):
             st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
             st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
