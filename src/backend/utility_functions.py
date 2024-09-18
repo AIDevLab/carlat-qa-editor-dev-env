@@ -19,7 +19,7 @@ import json
 import traceback 
 import concurrent.futures
 from pydantic import BaseModel
-
+import re
 
 
 
@@ -1559,24 +1559,22 @@ def topic_assignment_validation(topics_dict, topics):
     return  corrected_assignment
 
 
-
-def replace_short_quote_by_original(quotes_dictionnary,  all_quotes_set):
-
+def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     """
-    replace the truncated quotes by the orginal full context quotes
+    Replace truncated quotes in the dictionary with the original full quotes.
+    
     Args:
-    - quotes_dictionnary: the dictionary of quotes and topics
-    - all_quotes_set: the set of the original full quotes
-
-    Return:
-    - quotes_dictionnary: after updating the quotes 
+    - quotes_dictionnary: The dictionary of quotes and topics.
+    - all_quotes_set: The set of original full quotes.
+    
+    Returns:
+    - Updated quotes_dictionnary with full quotes replacing truncated ones.
     """
-
-    for quote in quotes_dictionnary.keys():
+    
+    for quote in list(quotes_dictionnary.keys()):  # List to avoid runtime dictionary change issues
         len_quote = len(quote)
-        for q in all_quotes_set:
-            if re.match(quote, q[:len_quote]):
-                quotes_dictionnary[q] = quotes_dictionnary.pop(quote)
-
+        for full_quote in all_quotes_set:
+            if full_quote[:len_quote] == quote:  # String slicing for comparison
+                quotes_dictionnary[full_quote] = quotes_dictionnary.pop(quote)  # Replace key
 
     return quotes_dictionnary
