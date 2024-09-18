@@ -1576,5 +1576,6 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
         for full_quote in all_quotes_set:
             if full_quote[:len_quote] == quote:  # String slicing for comparison
                 quotes_dictionnary[full_quote] = quotes_dictionnary.pop(quote)  # Replace key
+                print("MATCH.........")
 
     return quotes_dictionnary
