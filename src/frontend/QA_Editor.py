@@ -228,20 +228,62 @@ with st.container(border=False):
     if st.session_state.keywords_extracted == True:
         topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
         # Sample data
-        data = {
-            "Topic": st.session_state.list_topics  ,
-            "Importance Order": [1]*10,
-            "Flow Order": [2]*10,
-            "Appearance Percentage": [1]*10
-        }
+        # data = {
+        #     "Topic": st.session_state.list_topics  ,
+        #     "Importance Order": [1]*10,
+        #     "Flow Order": [2]*10,
+        #     "Appearance Percentage": [1]*10
+        # }
 
-        # Create DataFrame
-        df = pd.DataFrame(data)
+        # # Create DataFrame
+        # df = pd.DataFrame(data)
 
-        # Display the table in Streamlit
-        st.title("Topics Overview")
-        st.table(df)  # You can use st.dataframe(df) for more interactivity
+        # # Display the table in Streamlit
+        # st.title("Topics Overview")
+        # st.table(df)  # You can use st.dataframe(df) for more interactivity
 
+
+        # Initialize other editable fields if they don't exist in session state
+        if "importance_order" not in st.session_state:
+            st.session_state.importance_order = [1] * len(st.session_state.list_topics)
+        if "flow_order" not in st.session_state:
+            st.session_state.flow_order = [2] * len(st.session_state.list_topics)
+        if "appearance_percentage" not in st.session_state:
+            st.session_state.appearance_percentage = [10] * len(st.session_state.list_topics)
+
+        # Table headers
+        st.write("### Editable Table")
+        cols = st.columns(4)  # Create four columns for the table headers
+
+        cols[0].write("Topic")
+        cols[1].write("Importance Order")
+        cols[2].write("Flow Order")
+        cols[3].write("Appearance Percentage")
+
+        # Create editable rows for each topic
+        for i in range(len(st.session_state.list_topics)):
+            col1, col2, col3, col4 = st.columns(4)
+            
+            # Editable Topic field
+            st.session_state.list_topics[i] = col1.text_input(f"Topic {i+1}", value=st.session_state.list_topics[i], key=f"topic_{i}")
+            
+            # Editable Importance Order field
+            st.session_state.importance_order[i] = col2.number_input(f"Importance Order {i+1}", value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
+            
+            # Editable Flow Order field
+            st.session_state.flow_order[i] = col3.number_input(f"Flow Order {i+1}", value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
+            
+            # Editable Appearance Percentage field
+            st.session_state.appearance_percentage[i] = col4.number_input(f"Appearance Percentage {i+1}", value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
+
+        # Optional: Display the modified table for review
+        st.write("### Updated Table Data:")
+        st.write({
+            "Topic": st.session_state.list_topics,
+            "Importance Order": st.session_state.importance_order,
+            "Flow Order": st.session_state.flow_order,
+            "Appearance Percentage": st.session_state.appearance_percentage
+        })
 
         if st.button("update key topics"):
             st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
