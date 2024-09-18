@@ -229,7 +229,7 @@ with st.container(border=False):
         topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
         # Sample data
         data = {
-            "Topic": st.session_state.topics ,
+            "Topic": st.session_state.list_topics  ,
             "Importance Order": [1]*10,
             "Flow Order": [2]*10,
             "Appearance Percentage": [1]*10
