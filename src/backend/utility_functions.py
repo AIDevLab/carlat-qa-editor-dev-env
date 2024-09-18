@@ -1550,6 +1550,8 @@ def topic_assignment_validation(topics_dict, topics):
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
         print("CORRECT ASSING")
+        print("len keys")
+        print(len(corrected_assignment.keys()))
         print(corrected_assignment)
     except Exception as e:
         print(e)
