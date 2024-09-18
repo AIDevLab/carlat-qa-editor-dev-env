@@ -10,6 +10,9 @@ from spire.doc import *
 from spire.doc.common import *
 from docx import Document as doc
 nltk.download('punkt')
+import streamlit as st
+import pandas as pd
+
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
@@ -188,6 +191,23 @@ with st.container(border=False):
     st.caption("🚀 A streamlit editor powered by OpenAI LLM")
     st.divider()
 
+
+    # Sample data
+    data = {
+        "Topic": ["Topic 1", "Topic 2", "Topic 3"],
+        "Importance Order": [1, 2, 3],
+        "Flow Order": [2, 1, 3],
+        "Appearance Percentage": [25, 50, 75]
+    }
+
+    # Create DataFrame
+    df = pd.DataFrame(data)
+
+    # Display the table in Streamlit
+    st.title("Topics Overview")
+    st.table(df)  # You can use st.dataframe(df) for more interactivity
+
+
     file = st.file_uploader(label="", type=[".docx"], key="upload", on_change = update_file_params)
     if is_file_loaded(file) and st.session_state.file_uploaded == False:
         with st.spinner("Loading in progress"):
@@ -228,7 +248,6 @@ with st.container(border=False):
             st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
             st.session_state.topics_updated = True
             st.session_state.quotes_retreived = False
-            st.rerun()
 
     if st.download_button("Download key topics", st.session_state.topics):
         if st.session_state.keywords_extracted == False:
