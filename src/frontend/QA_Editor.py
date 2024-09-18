@@ -261,13 +261,13 @@ with st.container(border=False):
         )
 
         # Store the updated data in session state
-        if edited_data is not None:
-            st.session_state.data = edited_data
-            # update the topics list 
-            st.session_state.list_topics = st.session_state.data['Topic'].tolist()
+        
+        st.session_state.data = edited_data
+        # update the topics list 
+        st.session_state.list_topics = st.session_state.data['Topic'].tolist()
 
-            print("UPDATED TOPICS")
-            print(st.session_state.list_topics)
+        print("UPDATED TOPICS")
+        print(st.session_state.list_topics)
 
 
         # if st.button("update key topics"):
