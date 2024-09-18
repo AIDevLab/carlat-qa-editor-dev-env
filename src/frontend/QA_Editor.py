@@ -248,9 +248,9 @@ with st.container(border=False):
         if "data" not in st.session_state:
             st.session_state.data = pd.DataFrame({
                 "Topic": st.session_state.list_topics ,
-                "Importance Order": [1] * 10,
-                "Flow Order": [2] * 10,
-                "Appearance Percentage": [10] * 10
+                "Importance Order": range(1,10),
+                "Flow Order": range(1,10),
+                "Appearance Percentage": range(1,10)
             })
 
         # Display the editable DataFrame
