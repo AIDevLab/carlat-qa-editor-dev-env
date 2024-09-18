@@ -249,8 +249,8 @@ with st.container(border=False):
         if "data" not in st.session_state:
             st.session_state.data = pd.DataFrame({
                 "Topics": st.session_state.list_topics ,
-                "Default Importance Order": range(1,10),
-                "Flow Order": range(1,10),
+                "Default Importance Order": range(1,11),
+                "Flow Order": range(1,11),
                 "Appearance Percentage": [10]*10
             })
 
