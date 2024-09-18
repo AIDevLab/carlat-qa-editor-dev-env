@@ -264,44 +264,46 @@ with st.container(border=False):
             my_bar.empty()
             st.session_state.all_quotes_set = set()
 
-            # Iterate through all topics in the topics_dict
-            for topic in st.session_state.topics_dict:
-                # Add all the quotes from the current topic to the set
-                st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
+            with st.spinner("In progress"):
 
-            # Now `all_quotes_set` contains unique quotes from all topics
+                # Iterate through all topics in the topics_dict
+                for topic in st.session_state.topics_dict:
+                    # Add all the quotes from the current topic to the set
+                    st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
 
-
-            # print(st.session_state.topics_dict[topic]["quotes"])
-            # print("-----------------------------------------------------")
-
-            st.session_state.btn_draft_download_status = False
-            st.session_state.running = False
-
-            # find redundant quotes to topic assingment
-            redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
-            print("*************************************************")
-            print("permanent_assigned_topics")
-            print(permanent_assigned_topics)
-            print("------------------------------------------------")
+                # Now `all_quotes_set` contains unique quotes from all topics
 
 
-            # # print("----------------------RED--------------------------")
-            # # print(redundant_quotes_dict)
-            # # print("*************************************************")
-            # # print(st.session_state.topics_dict)
-            # # print("------------------------------------------------")
-            topics = st.session_state.topics_dict.keys()
-            st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-            st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
-            st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
+                # print(st.session_state.topics_dict[topic]["quotes"])
+                # print("-----------------------------------------------------")
+
+                st.session_state.btn_draft_download_status = False
+                st.session_state.running = False
+
+                # find redundant quotes to topic assingment
+                redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
+                print("*************************************************")
+                print("permanent_assigned_topics")
+                print(permanent_assigned_topics)
+                print("------------------------------------------------")
 
 
-            # # format the topics and quotes 
-            st.session_state.quotes_text, st.session_state.all_quotes_list = parse_response_quotes(st.session_state.topics_dict)
-            st.session_state.quotes_retreived = True
-            st.session_state.topics_updated = False
-            st.rerun()
+                # # print("----------------------RED--------------------------")
+                # # print(redundant_quotes_dict)
+                # # print("*************************************************")
+                # # print(st.session_state.topics_dict)
+                # # print("------------------------------------------------")
+                topics = st.session_state.topics_dict.keys()
+                st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
+                st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
+                st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
+
+
+                # # format the topics and quotes 
+                st.session_state.quotes_text, st.session_state.all_quotes_list = parse_response_quotes(st.session_state.topics_dict)
+                st.session_state.quotes_retreived = True
+                st.session_state.topics_updated = False
+                st.rerun()
 
     if st.session_state.quotes_retreived == True:
         quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=300)
