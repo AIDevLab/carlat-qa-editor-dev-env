@@ -244,38 +244,24 @@ with st.container(border=False):
 
 
         # Initialize other editable fields if they don't exist in session state
-        if "importance_order" not in st.session_state:
-            st.session_state.importance_order = [1] * len(st.session_state.list_topics)
-        if "flow_order" not in st.session_state:
-            st.session_state.flow_order = [2] * len(st.session_state.list_topics)
-        if "appearance_percentage" not in st.session_state:
-            st.session_state.appearance_percentage = [10] * len(st.session_state.list_topics)
+        # Initialize the list of topics and other columns in session state
+        if "data" not in st.session_state:
+            st.session_state.data = pd.DataFrame({
+                "Topic": st.session_state.list_topics ,
+                "Importance Order": [1] * 10,
+                "Flow Order": [2] * 10,
+                "Appearance Percentage": [10] * 10
+            })
 
-        # Table headers
-        st.write("### Editable Table")
-        cols = st.columns(4)  # Create four columns for the table headers
+        # Display the editable DataFrame
+        edited_data = st.data_editor(
+            st.session_state.data,
+            num_rows="dynamic",  # Allows dynamic row addition/deletion
+            use_container_width=True  # Expands to the container width
+        )
 
-        cols[0].write("Topic")
-        cols[1].write("Importance Order")
-        cols[2].write("Flow Order")
-        cols[3].write("Appearance Percentage")
-
-        # Create editable rows for each topic
-        for i in range(len(st.session_state.list_topics)):
-            col1, col2, col3, col4 = st.columns(4)
-            
-            # Editable Topic field
-            st.session_state.list_topics[i] = col1.text_input("", value=st.session_state.list_topics[i], key=f"topic_{i}")
-            
-            # Editable Importance Order field
-            st.session_state.importance_order[i] = col2.number_input( "",value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
-            
-            # Editable Flow Order field
-            st.session_state.flow_order[i] = col3.number_input( "",value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
-            
-            # Editable Appearance Percentage field
-            st.session_state.appearance_percentage[i] = col4.number_input("",value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
-
+        # Store the edited data back in session state
+        st.session_state.data = edited_data
 
         if st.button("update key topics"):
             st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
