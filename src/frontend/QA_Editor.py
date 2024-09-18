@@ -247,10 +247,10 @@ with st.container(border=False):
         # Initialize the list of topics and other columns in session state
         if "data" not in st.session_state:
             st.session_state.data = pd.DataFrame({
-                "Topic": st.session_state.list_topics ,
-                "Importance Order": range(1,10),
+                "Topics": st.session_state.list_topics ,
+                "Default Importance Order": range(1,10),
                 "Flow Order": range(1,10),
-                "Appearance Percentage": range(1,10)
+                "Appearance Percentage": [10]*10
             })
 
         # Display the editable DataFrame
