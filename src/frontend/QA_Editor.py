@@ -260,14 +260,21 @@ with st.container(border=False):
             use_container_width=True  # Expands to the container width
         )
 
-        # Store the edited data back in session state
-        st.session_state.data = edited_data
+        # Store the updated data in session state
+        if edited_data is not None:
+            st.session_state.data = edited_data
+            # update the topics list 
+            st.session_state.list_topics = st.session_state.data['Topic'].tolist()
 
-        if st.button("update key topics"):
-            st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
-            st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
-            st.session_state.topics_updated = True
-            st.session_state.quotes_retreived = False
+            print("UPDATED TOPICS")
+            print(st.session_state.list_topics)
+
+
+        # if st.button("update key topics"):
+        #     st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
+        #     st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
+        #     st.session_state.topics_updated = True
+        #     st.session_state.quotes_retreived = False
 
     if st.download_button("Download key topics", st.session_state.topics):
         if st.session_state.keywords_extracted == False:
