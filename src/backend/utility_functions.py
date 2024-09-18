@@ -1516,6 +1516,21 @@ def topic_assignment_validation(topics_dict, topics):
         - Ensure that all the quotes in the generated response are in their full context. 
         - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
         - Format the output as a valid JSON object, preserve the input format.
+        - the keys of the output should be the quotes wheras the values should be the assigned topics.
+
+        <START OF OUTPUT EXAMPLE>
+        topics list : from topic 1 to topic4
+        The output:
+
+                {
+            "Dr. Smith: Eating a balanced diet is crucial for maintaining overall health. It involves consuming a variety of foods from all the food groups in the right proportions. A balanced diet provides essential nutrients that the body needs to function optimally.": "Topic1: Importance of a balanced diet for overall health.",
+            "Dr. Smith: While fruits and vegetables are key components of a healthy diet, it's also important to include whole grains and lean proteins. These provide necessary fiber, vitamins, and minerals that support bodily functions and energy levels.": "Topic2: Essential components of a healthy diet.",
+            "Dr. Smith: Hydration is a critical aspect of nutrition. Drinking enough water daily helps regulate body temperature, keeps joints lubricated, and supports overall cellular function.": "Topic3: Importance of hydration in maintaining health.",
+            "Dr. Smith: Reducing the intake of processed foods and sugars can significantly lower the risk of chronic diseases such as diabetes and heart disease. Opting for whole, unprocessed foods is a better choice for long-term health.": "Topic4: Impact of processed foods on long-term health.",
+
+        }
+        <END OF OUTPUT EXAMPLE>
+
 
             
 
