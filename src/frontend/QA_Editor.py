@@ -265,16 +265,16 @@ with st.container(border=False):
             col1, col2, col3, col4 = st.columns(4)
             
             # Editable Topic field
-            st.session_state.list_topics[i] = col1.text_input( value=st.session_state.list_topics[i], key=f"topic_{i}")
+            st.session_state.list_topics[i] = col1.text_input("", value=st.session_state.list_topics[i], key=f"topic_{i}")
             
             # Editable Importance Order field
-            st.session_state.importance_order[i] = col2.number_input( value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
+            st.session_state.importance_order[i] = col2.number_input( "",value=st.session_state.importance_order[i], step=1, key=f"importance_{i}")
             
             # Editable Flow Order field
-            st.session_state.flow_order[i] = col3.number_input( value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
+            st.session_state.flow_order[i] = col3.number_input( "",value=st.session_state.flow_order[i], step=1, key=f"flow_{i}")
             
             # Editable Appearance Percentage field
-            st.session_state.appearance_percentage[i] = col4.number_input(value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
+            st.session_state.appearance_percentage[i] = col4.number_input("",value=st.session_state.appearance_percentage[i], step=1, key=f"percentage_{i}")
 
 
         if st.button("update key topics"):
