@@ -158,6 +158,16 @@ if "all_quotes_set" not in st.session_state:
 if "file_name" not in st.session_state:
     st.session_state.file_name = ""
 
+if "topics_with_importance_order" not in st.session_state:
+    st.session_state.topics_with_importance_order = []
+
+if "topics_with_flow_order" not in st.session_state:
+    st.session_state.topics_with_flow_order = []
+
+if "topics_with_appearance_percentage" not in st.session_state:
+    st.session_state.topics_with_appearance_percentage = []
+
+
 st.markdown(
     """
     <style>
@@ -227,29 +237,11 @@ with st.container(border=False):
                 st.session_state.keywords_extracted = True
     print(st.session_state.list_topics)
     if st.session_state.keywords_extracted == True:
-        #topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
-        # Sample data
-        # data = {
-        #     "Topic": st.session_state.list_topics  ,
-        #     "Importance Order": [1]*10,
-        #     "Flow Order": [2]*10,
-        #     "Appearance Percentage": [1]*10
-        # }
 
-        # # Create DataFrame
-        # df = pd.DataFrame(data)
-
-        # # Display the table in Streamlit
-        # st.title("Topics Overview")
-        # st.table(df)  # You can use st.dataframe(df) for more interactivity
-
-
-        # Initialize other editable fields if they don't exist in session state
-        # Initialize the list of topics and other columns in session state
         if "data" not in st.session_state:
             st.session_state.data = pd.DataFrame({
                 "Topics": st.session_state.list_topics ,
-                "Default Importance Order": range(1,11),
+                # "Importance Order": range(1,11),
                 "Flow Order": range(1,11),
                 "Appearance Percentage": [10]*10
             })
@@ -267,15 +259,12 @@ with st.container(border=False):
         st.session_state.list_topics = st.session_state.data['Topics'].tolist()
         st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
 
-        print("UPDATED TOPICS")
-        print(st.session_state.list_topics)
+        # assigning and updating the importance and percentage info to the topics
+        # st.session_state.topics_with_importance_order = list(zip(st.session_state.list_topics, st.session_state.data['Importance Order'].tolist()))
+        st.session_state.topics_with_flow_order = list(zip(st.session_state.list_topics, st.session_state.data['Flow Order'].tolist()))
+        st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
 
-        # if st.button("update key topics"):
-        #     st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
-        #     st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
-        #     st.session_state.topics_updated = True
-        #     st.session_state.quotes_retreived = False
 
     if st.download_button("Download key topics", st.session_state.topics):
         if st.session_state.keywords_extracted == False:
@@ -292,10 +281,6 @@ with st.container(border=False):
             st.session_state.topics_dict = {}
 
             for (topic, i) in zip(tqdm(st.session_state.list_topics),range(len(st.session_state.list_topics))):
-                print("//////////////////////////////////////////////////")
-                print(topic)
-                print("-----")
-                
                 progress += int(progres_increase)
                 try:
                     st.session_state.topics_dict[topic] = {}
@@ -322,28 +307,11 @@ with st.container(border=False):
                     # Add all the quotes from the current topic to the set
                     st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
 
-                # Now `all_quotes_set` contains unique quotes from all topics
-
-
-                # print(st.session_state.topics_dict[topic]["quotes"])
-                # print("-----------------------------------------------------")
-
                 st.session_state.btn_draft_download_status = False
                 st.session_state.running = False
 
                 # find redundant quotes to topic assingment
                 redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
-                print("*************************************************")
-                print("permanent_assigned_topics")
-                print(permanent_assigned_topics)
-                print("------------------------------------------------")
-
-
-                # # print("----------------------RED--------------------------")
-                # # print(redundant_quotes_dict)
-                # # print("*************************************************")
-                # # print(st.session_state.topics_dict)
-                # # print("------------------------------------------------")
                 topics = st.session_state.topics_dict.keys()
                 x = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
                 x = topic_assignment_validation(x, st.session_state.topics)
@@ -496,5 +464,9 @@ with st.container(border=False):
         st.session_state.topics_quotes = {}
         st.session_state.all_quotes_set = set()
         st.session_state.file_name = ""
+        st.session_state.topics_with_importance_order = []
+        st.session_state.topics_with_flow_order = []
+        st.session_state.topics_with_appearance_percentage = []
+
         st.empty()
         st.rerun()
