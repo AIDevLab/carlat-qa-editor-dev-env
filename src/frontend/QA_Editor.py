@@ -265,7 +265,7 @@ with st.container(border=False):
         
         st.session_state.data = edited_data
         # update the topics list 
-        st.session_state.list_topics = st.session_state.data['Topic'].tolist()
+        st.session_state.list_topics = st.session_state.data['Topics'].tolist()
 
         print("UPDATED TOPICS")
         print(st.session_state.list_topics)
