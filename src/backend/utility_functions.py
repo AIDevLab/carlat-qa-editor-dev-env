@@ -1577,11 +1577,11 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
         print()
         print()
         print("Quote")
-        print(quote[:50])
+        print(quote[:100])
         len_quote = len(quote)
         for full_quote in all_quotes_set:
-            print(full_quote)
-            print(full_quote[:50])
+            print("full_quote")
+            print(full_quote[:100])
             if full_quote[:len_quote] == quote:  # String slicing for comparison
                 quotes_dictionnary[full_quote] = quotes_dictionnary.pop(quote)  # Replace key
                 print("MATCH.........")
