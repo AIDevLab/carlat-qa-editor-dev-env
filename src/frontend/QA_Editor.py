@@ -152,6 +152,9 @@ if "topics_quotes" not in st.session_state:
 if "all_quotes_set" not in st.session_state:
     st.session_state.all_quotes_set = set()
 
+if "file_name" not in st.session_state:
+    st.session_state.file_name = ""
+
 st.markdown(
     """
     <style>
@@ -190,6 +193,7 @@ with st.container(border=False):
         with st.spinner("Loading in progress"):
             st.session_state.file_uploaded = True
             st.session_state.file_content = get_doc_string(file)
+            st.session_state.file_name = file.name
 
             #save the content of the uploaded file
             document = doc()
@@ -329,7 +333,7 @@ with st.container(border=False):
                     document_bytes = f.read()
 
                     # Provide the bytes to the download button
-                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document.docx")
+                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document_"+st.session_state.file_name+".docx")
 
 
     custom_qa_prompts = st.checkbox(label='Use a custom prompt to generate Q/A pairs')
@@ -398,7 +402,7 @@ with st.container(border=False):
             with open("generated_draft.docx", "rb") as f:
                 document_bytes = f.read()
                 # Provide the bytes to the download button
-                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft.docx")
+                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft"+st.session_state.file_name+".docx")
             
 
                 # Calculate word counts for original and generated documents
@@ -425,7 +429,7 @@ with st.container(border=False):
         with open("memorable_quotes.docx", "rb") as f:
             document_bytes = f.read()
             # Provide the bytes to the download button
-            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes.docx")
+            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes"+st.session_state.file_name+".docx")
 
     if st.button("Reset"):
         st.session_state.topics_updated = False
@@ -444,5 +448,6 @@ with st.container(border=False):
         st.session_state.memorable_quotes = []
         st.session_state.topics_quotes = {}
         st.session_state.all_quotes_set = set()
+        st.session_state.file_name = ""
         st.empty()
         st.rerun()
