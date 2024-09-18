@@ -1576,11 +1576,11 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     for topic in quotes_dictionnary.keys():  # List to avoid runtime dictionary change issues
         print()
         print()
-        for i in range(len(quotes_dictionnary[topic])):
-            len_quote = len(quotes_dictionnary[topic][i])
+        for i in range(len(quotes_dictionnary[topic]["quotes"])):
+            len_quote = len(quotes_dictionnary[topic]["quotes"][i])
             for full_quote in all_quotes_set:
-                if full_quote[:len_quote] == quotes_dictionnary[topic][i]:  # String slicing for comparison
-                    quotes_dictionnary[topic][i] = full_quote
+                if full_quote[:len_quote] == quotes_dictionnary[topic]["quotes"][i]:  # String slicing for comparison
+                    quotes_dictionnary[topic]["quotes"][i] = full_quote
                     print("MATCH.........")
                     break
 

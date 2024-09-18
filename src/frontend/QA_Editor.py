@@ -294,9 +294,9 @@ with st.container(border=False):
                 # # print(st.session_state.topics_dict)
                 # # print("------------------------------------------------")
                 topics = st.session_state.topics_dict.keys()
-                st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-                st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
-                st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
+                x = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
+                x = topic_assignment_validation(x, st.session_state.topics)
+                st.session_state.topics_dict = replace_short_quote_by_original(x,  st.session_state.all_quotes_set)
 
 
                 # # format the topics and quotes 
