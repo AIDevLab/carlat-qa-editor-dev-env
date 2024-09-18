@@ -276,7 +276,7 @@ with st.container(border=False):
         #     st.session_state.topics_updated = True
         #     st.session_state.quotes_retreived = False
 
-    if st.download_button("Download key topics", st.session_state.list_topics):
+    if st.download_button("Download key topics", str(st.session_state.list_topics)):
         if st.session_state.keywords_extracted == False:
             st.warning("Please generate key topics first.")
 
