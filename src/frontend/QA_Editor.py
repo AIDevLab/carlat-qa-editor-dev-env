@@ -265,7 +265,7 @@ with st.container(border=False):
         st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
 
-    if st.download_button("Download key topics", st.session_state.topics):
+    if st.download_button("Download key topics", st.session_state.topics, file_name="key_topics_"+st.session_state.file_name+".txt"):
         if st.session_state.keywords_extracted == False:
             st.warning("Please generate key topics first.")
 
