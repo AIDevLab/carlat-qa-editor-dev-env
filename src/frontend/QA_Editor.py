@@ -265,7 +265,6 @@ with st.container(border=False):
         st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
 
-
     if st.download_button("Download key topics", st.session_state.topics):
         if st.session_state.keywords_extracted == False:
             st.warning("Please generate key topics first.")
@@ -406,7 +405,7 @@ with st.container(border=False):
                     
             st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
             # update the conversation flow and vary the questions 
-            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_dict.keys(), initial_draft)
+            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
             #st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
             #st.download_button("Download draft", st.session_state.final_draft)
 

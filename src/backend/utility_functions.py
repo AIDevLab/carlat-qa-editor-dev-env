@@ -1224,7 +1224,7 @@ def update_topic_assignment(redundant_quotes_dict, topics_dict):
 
 
 
-def make_transcript_flowful(ordered_topics, qa_draft):
+def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appearance_percentage):
     """
     Make the generated QA draft flowful in a continous interview conversation style
 
@@ -1254,14 +1254,23 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             -
             """ 
             +
-            "-".join(list(ordered_topics))
+            '\n '.join([f"topic - {topic}: order - {order}" for topic, order in topics_with_flow_order])
             +"""
             <END OF ORDERED TOPICS>
+
+
+            <START OF TOPICS APPEARANCE PERCENTAGE>
+            -
+            """ 
+            +
+            '\n '.join([f"topic - {topic}: apperance percenatge - {percent}" for topic, percent in topics_with_appearance_percentage])
+            +"""
+            <END OF TOPICS APPEARANCE PERCENTAGE>
 
             Given the above Q/A pairs and the above list of ordred topics, your mission is to follow the bellow instructions:
             
             <INSTRUCTIONS START> 
-            - Reorder the Q/A pairs following the exact order of the topics. 
+            - Reorder the Q/A pairs following the exact order of the topics given within the topics order tag above. 
             - make the question direct and precise.
             - Don't add "thank you" to the interviewer questions.
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
@@ -1275,6 +1284,7 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             - Ensure that  each QA pair in the input is also present in the output which is the flowful interview transcript to be generated.
             - Ensure that the QA pairs appear in the flawful interview transcript following the order of the topics in the input.
             - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
+            - Respect the topics order and the apperance percent of each topic defined within the above order and percentage tags..
             <INSTRUCTIONS END> 
 
             """
