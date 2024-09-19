@@ -305,9 +305,7 @@ with st.container(border=False):
                 for topic in st.session_state.topics_dict:
                     # Add all the quotes from the current topic to the set
                     st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
-                print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
-                print(st.session_state.all_quotes_set)
-                print("----------------------------------------------------------------")
+
 
                 st.session_state.btn_draft_download_status = False
                 st.session_state.running = False
@@ -325,6 +323,9 @@ with st.container(border=False):
                 st.session_state.quotes_retreived = True
                 st.session_state.topics_updated = False
                 st.rerun()
+            print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
+            print(st.session_state.all_quotes_set)
+            print("----------------------------------------------------------------")
 
     if st.session_state.quotes_retreived == True:
         quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=300)
