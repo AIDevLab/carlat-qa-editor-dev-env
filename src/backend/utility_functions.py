@@ -1481,6 +1481,11 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             # printing stack trace 
             traceback.print_exc() 
 
+
+    total_quotes = sum(len(topics_dict[topic]["quotes"]) for topic in topics_dict.keys())
+    print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
+
+
     return topics_dict
 
 
