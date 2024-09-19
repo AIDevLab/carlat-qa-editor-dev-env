@@ -416,7 +416,7 @@ with st.container(border=False):
             with open("generated_draft.docx", "rb") as f:
                 document_bytes = f.read()
                 # Provide the bytes to the download button
-                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft"+st.session_state.file_name+".docx")
+                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft_"+st.session_state.file_name+".docx")
             
 
                 # Calculate word counts for original and generated documents
@@ -443,7 +443,7 @@ with st.container(border=False):
         with open("memorable_quotes.docx", "rb") as f:
             document_bytes = f.read()
             # Provide the bytes to the download button
-            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes"+st.session_state.file_name+".docx")
+            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes_"+st.session_state.file_name+".docx")
 
     if st.button("Reset"):
         st.session_state.topics_updated = False
