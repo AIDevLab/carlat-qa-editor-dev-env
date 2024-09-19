@@ -305,6 +305,9 @@ with st.container(border=False):
                 for topic in st.session_state.topics_dict:
                     # Add all the quotes from the current topic to the set
                     st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
+                print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
+                print(st.session_state.all_quotes_set)
+                print("----------------------------------------------------------------")
 
                 st.session_state.btn_draft_download_status = False
                 st.session_state.running = False
