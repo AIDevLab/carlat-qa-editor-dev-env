@@ -34,7 +34,7 @@ def load_vectorstore():
     return docsearch
 
 
-def similarity_search(query, docsearch, k=5):
+def similarity_search(query, docsearch, k=8):
     results = docsearch.similarity_search(query, k=k)
 
     docs = [doc.page_content for doc in results]
