@@ -1583,10 +1583,6 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     - Updated quotes_dictionnary with full quotes replacing truncated ones.
     """
 
-    print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
-    print(all_quotes_set)
-    print("----------------------------------------------------------------")
-    
     for topic in quotes_dictionnary.keys():  # List to avoid runtime dictionary change issues
         print()
         print()
@@ -1597,5 +1593,11 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
                     quotes_dictionnary[topic]["quotes"][i] = full_quote
                     print("MATCH.........")
                     break
+
+    
+    print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
+    print(all_quotes_set)
+    print("----------------------------------------------------------------")
+    
 
     return quotes_dictionnary
