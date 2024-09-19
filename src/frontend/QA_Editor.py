@@ -265,7 +265,7 @@ with st.container(border=False):
         st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
 
-    if st.download_button("Download key topics", st.session_state.topics, file_name="key_topics_"+st.session_state.file_name+".txt"):
+    if st.download_button("Download key topics", st.session_state.topics, file_name="key_topics_"+st.session_state.file_name.split(".")[0]+".txt"):
         if st.session_state.keywords_extracted == False:
             st.warning("Please generate key topics first.")
 
@@ -347,7 +347,7 @@ with st.container(border=False):
                     document_bytes = f.read()
 
                     # Provide the bytes to the download button
-                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document_"+st.session_state.file_name+".docx")
+                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document_"+st.session_state.file_name.split(".")[0]+".docx")
 
 
     custom_qa_prompts = st.checkbox(label='Use a custom prompt to generate Q/A pairs')
@@ -416,7 +416,7 @@ with st.container(border=False):
             with open("generated_draft.docx", "rb") as f:
                 document_bytes = f.read()
                 # Provide the bytes to the download button
-                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft_"+st.session_state.file_name+".docx")
+                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft_"+st.session_state.file_name.split(".")[0]+".docx")
             
 
                 # Calculate word counts for original and generated documents
@@ -443,7 +443,7 @@ with st.container(border=False):
         with open("memorable_quotes.docx", "rb") as f:
             document_bytes = f.read()
             # Provide the bytes to the download button
-            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes_"+st.session_state.file_name+".docx")
+            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes_"+st.session_state.file_name.split(".")[0]+".docx")
 
     if st.button("Reset"):
         st.session_state.topics_updated = False
