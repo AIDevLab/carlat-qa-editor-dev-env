@@ -1482,7 +1482,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             traceback.print_exc() 
 
 
-    total_quotes = sum(len(topics_dict[topic]["quotes"]) for topic in topics_dict)
+    total_quotes = sum(len(topics_dict[topic]["quotes"]) for topic in topics_dict.keys())
     print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
 
 
@@ -1568,9 +1568,16 @@ def topic_assignment_validation(topics_dict, topics):
         print("len keys")
         print(len(corrected_assignment.keys()))
         print(corrected_assignment)
+        
+        total_quotes = sum(len(x[topic]["quotes"]) for topic in x.keys())
+        print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
+
     except Exception as e:
         print(e)
+        print("EXCEPTION-----------------")
         corrected_assignment = {}
+
+
     
 
     return  corrected_assignment
