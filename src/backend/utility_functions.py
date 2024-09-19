@@ -1596,7 +1596,8 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
 
     
     print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
-    print(all_quotes_set)
+    for q in all_quotes_set:
+        print(q)
     print("----------------------------------------------------------------")
     
 
