@@ -1482,7 +1482,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             traceback.print_exc() 
 
 
-    total_quotes = sum(len(topics_dict[topic]["quotes"]) for topic in topics_dict.keys())
+    total_quotes = 0
+    for topic in topics_dict.keys():
+        total_quotes = total_quotes + len(topics_dict[topic]["quotes"]) 
     print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
 
 
