@@ -1457,7 +1457,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
         print("CORRECT ASSING")
-        print(corrected_assignment)
+        # print(corrected_assignment)
     except Exception as e:
         print(e)
         corrected_assignment = {}
