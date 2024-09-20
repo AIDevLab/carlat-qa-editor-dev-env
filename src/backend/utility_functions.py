@@ -1372,6 +1372,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
         - Ensure that all the quotes in the generated response are in their full context. 
         - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
+        - no quotes should be missing compared to the quotes in the input.
         - Format the output as a valid JSON object, preserve the input format.
         Follow the bellow example instance: 
 
@@ -1521,21 +1522,29 @@ def topic_assignment_validation(topics_dict, topics):
         "content":
         """
 
-        Given the bellow quotes and a set of topic options for each quote do the following:
+
+        Task: Refine the following quotes-to-topic dictionary by adjusting the initial assignments (only if necessary). Please adhere to the following guidelines:
 
         <INSTRUCTIONS START>
+        Topic Assignment:
 
+        Each topic must have at least one quote assigned.
+        The total number of topics should remain the same as in the input dictionary.
+        All topics listed below must be represented by at least one quote in the output.
+        Reassign Quotes if Needed:
 
-        - Ensure each topic from the topic list above is assigned to at least one quote.
-        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
-        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Ensure that each quote is attributed to one and only one topic.
-        - Ensure that all the quotes in the generated response are in their full context. 
-        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
-        - Format the output as a valid JSON object, preserve the input format.
+        If any topic is missing quotes, assign relevant quotes based on their content to ensure that no topic is left unrepresented.
+        Ensure that each quote is assigned to only one topic.
+        Quote Integrity:
 
+        All quotes must appear in their full, original context.
+        No truncation is allowed—each quote should begin with the interviewee's name and end with the last word spoken by the interviewee.
+        Output Format:
 
-        
+        Return the output as a valid JSON object.
+        Preserve the structure of the input dictionary (i.e., no topics or quotes should be removed).
+        Objective: Correct and validate the quote-to-topic assignment, ensuring that the same number of topics and quotes are included in the final output.
+                
         < START of List Topic >
         """ +
         "\n".join(topics)
