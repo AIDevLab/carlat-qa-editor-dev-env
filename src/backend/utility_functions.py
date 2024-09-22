@@ -1444,9 +1444,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
     completion = client.chat.completions.create(
 
-        model = "gpt-4o-mini",
+        model = "gpt-4o-2024-08-06",
         temperature=0,
-        max_tokens= 16000,
+        max_tokens= 15000,
         frequency_penalty= 0,
         presence_penalty= 0,
         messages=messages,
@@ -1577,9 +1577,9 @@ def topic_assignment_validation(topics_dict, topics):
 
     completion = client.chat.completions.create(
 
-        model = "gpt-4o-mini",
+        model = "gpt-4o-2024-08-06",
         temperature=0,
-        max_tokens= 16000,
+        max_tokens= 15000,
         frequency_penalty= 0,
         presence_penalty= 0,
         messages=messages,
