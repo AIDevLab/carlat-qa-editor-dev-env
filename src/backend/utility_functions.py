@@ -1554,6 +1554,14 @@ def topic_assignment_validation(topics_dict, topics):
         <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
         <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]}
         }
+
+        The following output type is not permitted
+
+        {
+        <topic> : { "quotes" : [<empty list>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]}
+        }
         < START of List Topic >
         """ +
         "\n".join(topics)
@@ -1576,7 +1584,7 @@ def topic_assignment_validation(topics_dict, topics):
     completion = client.chat.completions.create(
 
         model = "gpt-4o-mini",
-        temperature=0.1,
+        temperature=0.4,
         max_tokens= 16000,
         frequency_penalty= 0,
         presence_penalty= 0,
