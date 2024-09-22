@@ -1590,7 +1590,7 @@ def topic_assignment_validation(topics_dict, topics):
         print(len(corrected_assignment.keys()))
         print(corrected_assignment)
         
-        total_quotes = sum(len(corrected_assignment[topic]) for topic in corrected_assignment.keys())
+        total_quotes = sum(len(corrected_assignment[topic]["quotes"]) for topic in corrected_assignment.keys())
         print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
 
     except Exception as e:
