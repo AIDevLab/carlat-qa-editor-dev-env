@@ -1359,23 +1359,21 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         <INSTRUCTIONS START>
 
 
-        - For each quote, select the single topic from the provided list that is most closely related to that quote.
-        - Return the result as a dictionary where each quote (key) is paired with one topic (value)—the topic most relevant to the quote.
-        - Preserve the quotes exactly as they are. Do not modify or truncate any quote.
+        - For each quote, select the most relevant topic from the provided list.
+        - Return the result as a dictionary where each quote (key) is paired with one and only one topic (value)—the topic most closely related to the quote.
+        - Preserve all quotes exactly as they are. Do not modify, alter, or truncate any part of the quote.
         - Return the selected topics exactly as provided, including topic numbers if they are part of the topic.
-        - Limit the topic assignment strictly to the options listed for each quote.
-        - Do not assign a topic to a quote if it is not part of the relevant topic list for that specific quote.
+        - Limit the topic assignment strictly to the options listed for each quote. No topic should be assigned if it is not part of the relevant list for that specific quote.
         - Ensure that the topic does not start with a dash ("-").
-        - Ensure each topic from the topic list bellow is assigned to at least one quote.
-        - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
-        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
-        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Ensure that all the quotes in the generated response are in their full context. 
-        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
-        - no quotes should be missing compared to the quotes in the input.
-        - Format the output as a valid JSON object, preserve the input format.
-        - Ensure that each and every single single quote present in the input dictionary is also present in the output dictionary.
-        Follow the bellow example instance: 
+        - Every single topic from the provided list must be assigned to at least one quote. This is mandatory.
+        - If there are 10 topics in the provided list, ensure that exactly 10 unique topics are used as values in the generated JSON output. The same applies for any other number of topics.
+        - If a topic is not naturally assignable based on the relevance to any quote, assign a reasonable quote to that topic to ensure that no topic is left unassigned.
+        - Ensure that all quotes in the generated response are in their full context.
+        - No truncation is allowed—each quote must begin with the interviewee's name and end with the last word spoken by the interviewee.
+        - No quotes should be missing compared to the quotes in the input. Ensure that every quote present in the input dictionary is also present in the output.
+        - Format the output as a valid JSON object and preserve the input structure.
+        - Mandatory: Each and every single quote from the input dictionary must be included in the output dictionary.
+        - Follow the bellow example instance: 
 
         
         <START OF TOPIC SELCTION EXAMPLE>
@@ -1522,7 +1520,7 @@ def topic_assignment_validation(topics_dict, topics):
 
     {
         "role": "system",
-        "content": "You are a helpfull assistant and JSON formater that helps editors assign quotes to the most appropriate topic option."
+        "content": "You are a helpfull assistant and JSON formater that helps editors validate topic-to-quotes assignment."
     },
 
     {
@@ -1531,23 +1529,18 @@ def topic_assignment_validation(topics_dict, topics):
         """
 
 
-        Task: Refine the following topic-to-quotes dictionary by adjusting the initial assignments. Adhere to the following guidelines:
-
+        Validate the following topic-to-quotes dictionary by checking if the initial assignments adhere to the following guidelines:
         <INSTRUCTIONS START>
-
-        + Each topic must have at least one quote assigned to it.
-        + If any topic is missing quotes, reassign at least one relevant quote to it based on their content to ensure that no topic is left unrepresented. This is a must.
-        + The total number of topics should remain the same as in the input dictionary.
-        + The total number of quotes should remain the same as in the input dictionary.
-        + All topics listed below must be represented by at least one quote in the output.
-
-        + Ensure that each quote is assigned to only one topic.
-        + All quotes must appear in their full, original context.
-        + No truncation is allowed—each quote should begin with the interviewee's name and end with the last word spoken by the interviewee.
-        + Return the output as a valid JSON object.
-        + Preserve the structure of the input dictionary (i.e., no topics or quotes should be removed).
-
-        + Ensure that each and every single topic and each and every single quote present in the input dictionary is also present in the output dictionary.
+        + Ensure that every single topic has at least one quote assigned to it.
+        + If any topic is missing quotes, verify that at least one relevant quote has been reassigned to it based on content, ensuring no topic is left unrepresented.
+        + The total number of topics in the output must be the same as in the input dictionary.
+        + The total number of quotes in the output must remain identical to the total number of quotes in the input dictionary.
+        + Every single quote provided in the input must appear in the output. Check that no quotes are missing, omitted, skipped, or left unassigned.
+        + Ensure that each quote is assigned to only one topic and is not duplicated across multiple topics.
+        + Verify that all quotes appear in their full, original context, starting with the interviewee's name and ending with the last word spoken by the interviewee.
+        + No truncation of quotes is allowed—confirm that the entire quote is present from start to finish.
+        + Preserve the structure of the input dictionary—ensure no topics or quotes have been removed or modified.
+        + The final output must include every topic and every quote from the input dictionary, with no omissions, truncations, or duplicates.
         + The output must be in the following json format:
 
         {
