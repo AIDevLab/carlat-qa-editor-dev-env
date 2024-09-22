@@ -1374,6 +1374,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
         - no quotes should be missing compared to the quotes in the input.
         - Format the output as a valid JSON object, preserve the input format.
+        - Ensure that each and every single single quote present in the input dictionary is also present in the output dictionary.
         Follow the bellow example instance: 
 
         
@@ -1546,7 +1547,7 @@ def topic_assignment_validation(topics_dict, topics):
         + Return the output as a valid JSON object.
         + Preserve the structure of the input dictionary (i.e., no topics or quotes should be removed).
 
-        + Ensure that the same number of topics and quotes are included in the final output.
+        + Ensure that each and every single topic and each and every single quote present in the input dictionary is also present in the output dictionary.
         + The output must be in the following json format:
 
         {
