@@ -1366,7 +1366,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         - Limit the topic assignment strictly to the options listed for each quote.
         - Do not assign a topic to a quote if it is not part of the relevant topic list for that specific quote.
         - Ensure that the topic does not start with a dash ("-").
-        - Ensure each topic from the topic list above is assigned to at least one quote.
+        - Ensure each topic from the topic list bellow is assigned to at least one quote.
         - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
         - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
         - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
@@ -1425,7 +1425,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             
         
         
-
+        - Ensure each one of of the following topics has at least one quote assigned to it.
         < START of List Topic >
         """ +
         "\n".join(topics)
@@ -1446,7 +1446,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     completion = client.chat.completions.create(
 
         model = "gpt-4o-mini",
-        temperature=0.1,
+        temperature=0.3,
         max_tokens= 16000,
         frequency_penalty= 0,
         presence_penalty= 0,
