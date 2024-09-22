@@ -315,7 +315,7 @@ with st.container(border=False):
                 topics = st.session_state.topics_dict.keys()
                 print(f"NUmber of original quotes set  {len(list(st.session_state.all_quotes_set))}")
                 x = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-                x = topic_assignment_validation(x, st.session_state.topics)
+                st.session_state.topics_dict = topic_assignment_validation(x, st.session_state.topics)
 
 
 

@@ -1549,9 +1549,9 @@ def topic_assignment_validation(topics_dict, topics):
         The output must be in the following json format:
 
         {
-        <topic> : [<list of quotes containing at least 1 quote>]
-        <topic> : [<list of quotes containing at least 1 quote>]
-        <topic> : [<list of quotes containing at least 1 quote>]
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]}
         }
         < START of List Topic >
         """ +
