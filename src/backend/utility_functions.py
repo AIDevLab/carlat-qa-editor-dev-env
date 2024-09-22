@@ -1448,7 +1448,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         temperature=0,
         max_tokens= 16000,
         frequency_penalty= 0,
-        presence_penalty= 0,
+        presence_penalty= 1,
         messages=messages,
         response_format={"type": "json_object"}
     )
@@ -1581,7 +1581,7 @@ def topic_assignment_validation(topics_dict, topics):
         temperature=0,
         max_tokens= 16000,
         frequency_penalty= 0,
-        presence_penalty= 0,
+        presence_penalty= 1,
         messages=messages,
         response_format={"type": "json_object"}
     )
