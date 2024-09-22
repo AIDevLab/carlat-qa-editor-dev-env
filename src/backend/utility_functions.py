@@ -1528,25 +1528,24 @@ def topic_assignment_validation(topics_dict, topics):
         """
 
 
-        Task: Refine the following topic-to-quotes dictionary by adjusting the initial assignments (only if necessary). Please adhere to the following guidelines:
+        Task: Refine the following topic-to-quotes dictionary by adjusting the initial assignments. Adhere to the following guidelines:
 
         <INSTRUCTIONS START>
-        Topic Assignment:
 
-        Each topic must have at least one quote assigned.
-        The total number of topics should remain the same as in the input dictionary.
-        The number of quotes should remain the same as in the input dictionary.
-        All topics listed below must be represented by at least one quote in the output.
+        + Each topic must have at least one quote assigned to it.
+        + If any topic is missing quotes, reassign at least one relevant quote to it based on their content to ensure that no topic is left unrepresented. This is a must.
+        + The total number of topics should remain the same as in the input dictionary.
+        + The total number of quotes should remain the same as in the input dictionary.
+        + All topics listed below must be represented by at least one quote in the output.
 
-        If any topic is missing quotes, assign relevant quotes based on their content to ensure that no topic is left unrepresented.
-        Ensure that each quote is assigned to only one topic.
-        All quotes must appear in their full, original context.
-        No truncation is allowed—each quote should begin with the interviewee's name and end with the last word spoken by the interviewee.
-        Return the output as a valid JSON object.
-        Preserve the structure of the input dictionary (i.e., no topics or quotes should be removed).
+        + Ensure that each quote is assigned to only one topic.
+        + All quotes must appear in their full, original context.
+        + No truncation is allowed—each quote should begin with the interviewee's name and end with the last word spoken by the interviewee.
+        + Return the output as a valid JSON object.
+        + Preserve the structure of the input dictionary (i.e., no topics or quotes should be removed).
 
-        Objective: Correct and validate the topic-to-quotes assignment, ensuring that the same number of topics and quotes are included in the final output.
-        The output must be in the following json format:
+        + Ensure that the same number of topics and quotes are included in the final output.
+        + The output must be in the following json format:
 
         {
         <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
