@@ -1590,7 +1590,7 @@ def topic_assignment_validation(topics_dict, topics):
         print(len(corrected_assignment.keys()))
         print(corrected_assignment)
         
-        total_quotes = sum(len(corrected_assignment[topic]["quotes"]) for topic in corrected_assignment.keys())
+        total_quotes = sum(len(corrected_assignment[topic]) for topic in corrected_assignment.keys())
         print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
 
     except Exception as e:
@@ -1628,10 +1628,10 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
                     break
 
     
-    print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
-    for q in all_quotes_set:
-        print(q)
-    print("----------------------------------------------------------------")
+    # print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
+    # for q in all_quotes_set:
+    #     print(q)
+    # print("----------------------------------------------------------------")
     
 
     return quotes_dictionnary
