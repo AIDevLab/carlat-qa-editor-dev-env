@@ -314,11 +314,11 @@ with st.container(border=False):
                 redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
                 topics = st.session_state.topics_dict.keys()
                 print(f"NUmber of original quotes set  {len(list(st.session_state.all_quotes_set))}")
-                x = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
+                st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
                 print("ABOUT TO EXECUTE ASSIGN")
-                st.session_state.topics_dict = topic_assignment_validation(x, st.session_state.topics)
+                st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
                 print("ABOUT TO EXECUTE REPLACMENT")
-                st.session_state.topics_dict = replace_short_quote_by_original(x,  st.session_state.all_quotes_set)
+                st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
 
 
                 # # format the topics and quotes 
