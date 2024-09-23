@@ -1460,6 +1460,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         print("TOPICS")
         print(topics)
     except Exception as e:
+        print("EXCEPTION IN ASSIGNMENT ----------------")
         print(e)
         corrected_assignment = {}
     
