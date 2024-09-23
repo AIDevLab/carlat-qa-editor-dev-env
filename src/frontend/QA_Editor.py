@@ -257,13 +257,23 @@ with st.container(border=False):
         st.session_state.data = edited_data
         # update the topics list 
         st.session_state.list_topics = st.session_state.data['Topics'].tolist()
-        st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
+        # find the NoneType elements index
+        none_indices = [index for index, value in enumerate(st.session_state.list_topics) if value is None]
+
+        
 
         # assigning and updating the importance and percentage info to the topics
         # st.session_state.topics_with_importance_order = list(zip(st.session_state.list_topics, st.session_state.data['Importance Order'].tolist()))
         st.session_state.topics_with_flow_order = list(zip(st.session_state.list_topics, st.session_state.data['Flow Order'].tolist()))
         st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
+        # Remove elements in reverse order by index
+        for index in sorted(none_indices, reverse=True):
+            del st.session_state.list_topics[index]
+            del st.session_state.topics_with_flow_order[index]
+            del st.session_state.topics_with_appearance_percentage[index]
+
+        st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
 
     if st.download_button("Download key topics", st.session_state.topics, file_name="key_topics_"+st.session_state.file_name.split(".")[0]+".txt"):
         if st.session_state.keywords_extracted == False:
@@ -329,7 +339,7 @@ with st.container(border=False):
 
 
     if st.session_state.quotes_retreived == True:
-        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=300)
+        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=600)
     if st.button("Update quotes"):
         if st.session_state.quotes_retreived == False:
             st.warning("Please generate quotes first.")
@@ -398,7 +408,7 @@ with st.container(border=False):
                 st.rerun()
    
     if st.session_state.all_qa_text !="":
-        qa_text_area = st.text_area("Q/A", st.session_state.all_qa_text, height=400)
+        qa_text_area = st.text_area("Q/A", st.session_state.all_qa_text, height=600)
 
     if st.button("Generate draft", st.session_state.final_draft):
         if st.session_state.all_qa_text == "":
