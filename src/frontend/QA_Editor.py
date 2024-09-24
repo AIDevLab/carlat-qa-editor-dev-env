@@ -340,11 +340,11 @@ with st.container(border=False):
 
     if st.session_state.quotes_retreived == True:
         quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=600)
-    if st.button("Update quotes"):
-        if st.session_state.quotes_retreived == False:
-            st.warning("Please generate quotes first.")
-        else:
-            update_quotes_text_area()
+    # if st.button("Update quotes"):
+    #     if st.session_state.quotes_retreived == False:
+    #         st.warning("Please generate quotes first.")
+    #     else:
+    #         update_quotes_text_area()
                     
     if st.button("Highlight document"):
 
