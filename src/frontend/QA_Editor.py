@@ -235,7 +235,6 @@ with st.container(border=False):
             with st.spinner("Generation in progress"):
                 st.session_state.topics, st.session_state.list_topics = get_key_topics(st.session_state.file_content, st.session_state.custom_topics_prompt)
                 st.session_state.keywords_extracted = True
-    print(st.session_state.list_topics)
     if st.session_state.keywords_extracted == True:
 
         if "data" not in st.session_state:
@@ -297,7 +296,6 @@ with st.container(border=False):
                         #st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
                         st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
                     except Exception:
-                        print("EXCEPTION")
                         st.session_state.topics_dict[topic]["quotes"] = []
                         traceback.print_exc() 
                 except Exception:
@@ -323,11 +321,8 @@ with st.container(border=False):
                 # find redundant quotes to topic assingment
                 redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
                 topics = st.session_state.topics_dict.keys()
-                print(f"NUmber of original quotes set  {len(list(st.session_state.all_quotes_set))}")
                 st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-                print("ABOUT TO EXECUTE ASSIGN")
                 st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
-                print("ABOUT TO EXECUTE REPLACMENT")
                 st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
 
 

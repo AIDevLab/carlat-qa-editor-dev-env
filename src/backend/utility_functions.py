@@ -1455,13 +1455,13 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
-        print("CORRECT ASSING")
-        print(corrected_assignment)
-        print("TOPICS")
-        print(topics)
+        # print("CORRECT ASSING")
+        # print(corrected_assignment)
+        # print("TOPICS")
+        # print(topics)
     except Exception as e:
-        print("EXCEPTION IN ASSIGNMENT ----------------")
-        print(e)
+        # print("EXCEPTION IN ASSIGNMENT ----------------")
+        # print(e)
         corrected_assignment = {}
     
 
@@ -1488,7 +1488,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
     total_quotes = 0
     for topic in topics_dict.keys():
         total_quotes = total_quotes + len(topics_dict[topic]["quotes"]) 
-    print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
+    # print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
 
 
     return topics_dict
@@ -1589,17 +1589,17 @@ def topic_assignment_validation(topics_dict, topics):
 
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
-        print("CORRECT ASSING")
-        print("len keys")
-        print(len(corrected_assignment.keys()))
-        print(corrected_assignment)
+        # print("CORRECT ASSING")
+        # print("len keys")
+        # print(len(corrected_assignment.keys()))
+        # print(corrected_assignment)
         
         total_quotes = sum(len(corrected_assignment[topic]["quotes"]) for topic in corrected_assignment.keys())
-        print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
+        # print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
 
     except Exception as e:
-        print(e)
-        print("EXCEPTION-----------------")
+        # print(e)
+        # print("EXCEPTION-----------------")
         corrected_assignment = {}
 
 
@@ -1621,14 +1621,13 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     """
 
     for topic in quotes_dictionnary.keys():  # List to avoid runtime dictionary change issues
-        print()
-        print()
+
         for i in range(len(quotes_dictionnary[topic]["quotes"])):
             len_quote = len(quotes_dictionnary[topic]["quotes"][i])
             for full_quote in all_quotes_set:
                 if full_quote[:len_quote] == quotes_dictionnary[topic]["quotes"][i]:  # String slicing for comparison
                     quotes_dictionnary[topic]["quotes"][i] = full_quote
-                    print("MATCH.........")
+                    # print("MATCH.........")
                     break
 
     
