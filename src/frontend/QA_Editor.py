@@ -10,6 +10,9 @@ from spire.doc import *
 from spire.doc.common import *
 from docx import Document as doc
 nltk.download('punkt')
+import streamlit as st
+import pandas as pd
+
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
@@ -155,6 +158,16 @@ if "all_quotes_set" not in st.session_state:
 if "file_name" not in st.session_state:
     st.session_state.file_name = ""
 
+if "topics_with_importance_order" not in st.session_state:
+    st.session_state.topics_with_importance_order = []
+
+if "topics_with_flow_order" not in st.session_state:
+    st.session_state.topics_with_flow_order = []
+
+if "topics_with_appearance_percentage" not in st.session_state:
+    st.session_state.topics_with_appearance_percentage = []
+
+
 st.markdown(
     """
     <style>
@@ -187,6 +200,7 @@ with st.container(border=False):
     st.title("📝Carlat Q/A Editor - Development Env.")
     st.caption("🚀 A streamlit editor powered by OpenAI LLM")
     st.divider()
+
 
     file = st.file_uploader(label="", type=[".docx"], key="upload", on_change = update_file_params)
     if is_file_loaded(file) and st.session_state.file_uploaded == False:
@@ -222,15 +236,45 @@ with st.container(border=False):
                 st.session_state.topics, st.session_state.list_topics = get_key_topics(st.session_state.file_content, st.session_state.custom_topics_prompt)
                 st.session_state.keywords_extracted = True
     if st.session_state.keywords_extracted == True:
-        topics_area = st.text_area("Edit Key Topics", st.session_state.topics , height=200, on_change = get_updated_key_topics)
-        if st.button("update key topics"):
-            st.session_state.list_topics = [item for item in topics_area.split("\n") if item != ""]
-            st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
-            st.session_state.topics_updated = True
-            st.session_state.quotes_retreived = False
-            st.rerun()
 
-    if st.download_button("Download key topics", st.session_state.topics):
+        if "data" not in st.session_state:
+            st.session_state.data = pd.DataFrame({
+                "Topics": st.session_state.list_topics ,
+                # "Importance Order": range(1,11),
+                "Flow Order": range(1,11),
+                "Appearance Percentage": [10]*10
+            })
+
+        # Display the editable DataFrame
+        edited_data = st.data_editor(
+            st.session_state.data,
+            num_rows="dynamic",  # Allows dynamic row addition/deletion
+            use_container_width=True  # Expands to the container width
+        )
+
+        # Store the updated data in session state
+        st.session_state.data = edited_data
+        # update the topics list 
+        st.session_state.list_topics = st.session_state.data['Topics'].tolist()
+        # find the NoneType elements index
+        none_indices = [index for index, value in enumerate(st.session_state.list_topics) if value is None]
+
+        
+
+        # assigning and updating the importance and percentage info to the topics
+        # st.session_state.topics_with_importance_order = list(zip(st.session_state.list_topics, st.session_state.data['Importance Order'].tolist()))
+        st.session_state.topics_with_flow_order = list(zip(st.session_state.list_topics, st.session_state.data['Flow Order'].tolist()))
+        st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
+
+        # Remove elements in reverse order by index
+        for index in sorted(none_indices, reverse=True):
+            del st.session_state.list_topics[index]
+            del st.session_state.topics_with_flow_order[index]
+            del st.session_state.topics_with_appearance_percentage[index]
+
+        st.session_state.topics = '\n\n'.join(st.session_state.list_topics)
+
+    if st.download_button("Download key topics", st.session_state.topics, file_name="key_topics_"+st.session_state.file_name.split(".")[0]+".txt"):
         if st.session_state.keywords_extracted == False:
             st.warning("Please generate key topics first.")
 
@@ -245,10 +289,6 @@ with st.container(border=False):
             st.session_state.topics_dict = {}
 
             for (topic, i) in zip(tqdm(st.session_state.list_topics),range(len(st.session_state.list_topics))):
-                print("//////////////////////////////////////////////////")
-                print(topic)
-                print("-----")
-                
                 progress += int(progres_increase)
                 try:
                     st.session_state.topics_dict[topic] = {}
@@ -256,7 +296,6 @@ with st.container(border=False):
                         #st.session_state.topics_dict[topic]["quotes"] =  st.session_state.topics_quotes[topic]
                         st.session_state.topics_dict[topic]["quotes"] = get_quotes(topic.split(":")[1])
                     except Exception:
-                        print("EXCEPTION")
                         st.session_state.topics_dict[topic]["quotes"] = []
                         traceback.print_exc() 
                 except Exception:
@@ -275,32 +314,16 @@ with st.container(border=False):
                     # Add all the quotes from the current topic to the set
                     st.session_state.all_quotes_set.update(st.session_state.topics_dict[topic]["quotes"])
 
-                # Now `all_quotes_set` contains unique quotes from all topics
-
-
-                # print(st.session_state.topics_dict[topic]["quotes"])
-                # print("-----------------------------------------------------")
 
                 st.session_state.btn_draft_download_status = False
                 st.session_state.running = False
 
                 # find redundant quotes to topic assingment
                 redundant_quotes_dict, permanent_assigned_topics = find_redundant_quotes(st.session_state.topics_dict)
-                print("*************************************************")
-                print("permanent_assigned_topics")
-                print(permanent_assigned_topics)
-                print("------------------------------------------------")
-
-
-                # # print("----------------------RED--------------------------")
-                # # print(redundant_quotes_dict)
-                # # print("*************************************************")
-                # # print(st.session_state.topics_dict)
-                # # print("------------------------------------------------")
                 topics = st.session_state.topics_dict.keys()
-                x = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
-                x = topic_assignment_validation(x, st.session_state.topics)
-                st.session_state.topics_dict = replace_short_quote_by_original(x,  st.session_state.all_quotes_set)
+                st.session_state.topics_dict = update_topic_assignment_all_at_once(redundant_quotes_dict, st.session_state.topics_dict, topics, permanent_assigned_topics)
+                st.session_state.topics_dict = topic_assignment_validation(st.session_state.topics_dict, st.session_state.topics)
+                st.session_state.topics_dict = replace_short_quote_by_original(st.session_state.topics_dict,  st.session_state.all_quotes_set)
 
 
                 # # format the topics and quotes 
@@ -309,13 +332,14 @@ with st.container(border=False):
                 st.session_state.topics_updated = False
                 st.rerun()
 
+
     if st.session_state.quotes_retreived == True:
-        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=300)
-    if st.button("Update quotes"):
-        if st.session_state.quotes_retreived == False:
-            st.warning("Please generate quotes first.")
-        else:
-            update_quotes_text_area()
+        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=600)
+    # if st.button("Update quotes"):
+    #     if st.session_state.quotes_retreived == False:
+    #         st.warning("Please generate quotes first.")
+    #     else:
+    #         update_quotes_text_area()
                     
     if st.button("Highlight document"):
 
@@ -333,7 +357,7 @@ with st.container(border=False):
                     document_bytes = f.read()
 
                     # Provide the bytes to the download button
-                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document_"+st.session_state.file_name+".docx")
+                    st.download_button("Download Highlighted Document", data=document_bytes, mime="application/octet-stream", file_name="highlighted_document_"+st.session_state.file_name.split(".")[0]+".docx")
 
 
     custom_qa_prompts = st.checkbox(label='Use a custom prompt to generate Q/A pairs')
@@ -379,7 +403,7 @@ with st.container(border=False):
                 st.rerun()
    
     if st.session_state.all_qa_text !="":
-        qa_text_area = st.text_area("Q/A", st.session_state.all_qa_text, height=400)
+        qa_text_area = st.text_area("Q/A", st.session_state.all_qa_text, height=600)
 
     if st.button("Generate draft", st.session_state.final_draft):
         if st.session_state.all_qa_text == "":
@@ -389,9 +413,9 @@ with st.container(border=False):
             for topic in st.session_state.topics_dict.keys():
                 initial_draft = initial_draft + st.session_state.topics_dict[topic]["formated_qa"] + "\n\n"
                     
-            st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
+            # st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
             # update the conversation flow and vary the questions 
-            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_dict.keys(), initial_draft)
+            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
             #st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
             #st.download_button("Download draft", st.session_state.final_draft)
 
@@ -402,7 +426,7 @@ with st.container(border=False):
             with open("generated_draft.docx", "rb") as f:
                 document_bytes = f.read()
                 # Provide the bytes to the download button
-                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft"+st.session_state.file_name+".docx")
+                st.download_button("Download draft", data=document_bytes, mime="application/octet-stream", file_name="generated_draft_"+st.session_state.file_name.split(".")[0]+".docx")
             
 
                 # Calculate word counts for original and generated documents
@@ -429,7 +453,7 @@ with st.container(border=False):
         with open("memorable_quotes.docx", "rb") as f:
             document_bytes = f.read()
             # Provide the bytes to the download button
-            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes"+st.session_state.file_name+".docx")
+            st.download_button("Download memorable quotes", data=document_bytes, mime="application/octet-stream", file_name="memorable_quotes_"+st.session_state.file_name.split(".")[0]+".docx")
 
     if st.button("Reset"):
         st.session_state.topics_updated = False
@@ -449,5 +473,9 @@ with st.container(border=False):
         st.session_state.topics_quotes = {}
         st.session_state.all_quotes_set = set()
         st.session_state.file_name = ""
+        st.session_state.topics_with_importance_order = []
+        st.session_state.topics_with_flow_order = []
+        st.session_state.topics_with_appearance_percentage = []
+
         st.empty()
         st.rerun()

@@ -1224,7 +1224,7 @@ def update_topic_assignment(redundant_quotes_dict, topics_dict):
 
 
 
-def make_transcript_flowful(ordered_topics, qa_draft):
+def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appearance_percentage):
     """
     Make the generated QA draft flowful in a continous interview conversation style
 
@@ -1254,14 +1254,23 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             -
             """ 
             +
-            "-".join(list(ordered_topics))
+            '\n '.join([f"topic - {topic}: order - {order}" for topic, order in topics_with_flow_order])
             +"""
             <END OF ORDERED TOPICS>
+
+
+            <START OF TOPICS APPEARANCE PERCENTAGE>
+            -
+            """ 
+            +
+            '\n '.join([f"topic - {topic}: apperance percenatge - {percent}" for topic, percent in topics_with_appearance_percentage])
+            +"""
+            <END OF TOPICS APPEARANCE PERCENTAGE>
 
             Given the above Q/A pairs and the above list of ordred topics, your mission is to follow the bellow instructions:
             
             <INSTRUCTIONS START> 
-            - Reorder the Q/A pairs following the exact order of the topics. 
+            - Reorder the Q/A pairs following the exact order of the topics given within the topics order tag above. 
             - make the question direct and precise.
             - Don't add "thank you" to the interviewer questions.
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
@@ -1275,6 +1284,7 @@ def make_transcript_flowful(ordered_topics, qa_draft):
             - Ensure that  each QA pair in the input is also present in the output which is the flowful interview transcript to be generated.
             - Ensure that the QA pairs appear in the flawful interview transcript following the order of the topics in the input.
             - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
+            - Respect the topics order and the apperance percent of each topic defined within the above order and percentage tags..
             <INSTRUCTIONS END> 
 
             """
@@ -1349,21 +1359,21 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
         <INSTRUCTIONS START>
 
 
-        - For each quote, select the single topic from the provided list that is most closely related to that quote.
-        - Return the result as a dictionary where each quote (key) is paired with one topic (value)—the topic most relevant to the quote.
-        - Preserve the quotes exactly as they are. Do not modify or truncate any quote.
+        - For each quote, select the most relevant topic from the provided list.
+        - Return the result as a dictionary where each quote (key) is paired with one and only one topic (value)—the topic most closely related to the quote.
+        - Preserve all quotes exactly as they are. Do not modify, alter, or truncate any part of the quote.
         - Return the selected topics exactly as provided, including topic numbers if they are part of the topic.
-        - Limit the topic assignment strictly to the options listed for each quote.
-        - Do not assign a topic to a quote if it is not part of the relevant topic list for that specific quote.
+        - Limit the topic assignment strictly to the options listed for each quote. No topic should be assigned if it is not part of the relevant list for that specific quote.
         - Ensure that the topic does not start with a dash ("-").
-        - Ensure each topic from the topic list above is assigned to at least one quote.
-        - if there are 10 topics in the list of topics, then in the generated JSON, there should be 10 topics as diffrent values. if there 8 then the output will also have 8 ect..
-        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
-        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Ensure that all the quotes in the generated response are in their full context. 
-        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
-        - Format the output as a valid JSON object, preserve the input format.
-        Follow the bellow example instance: 
+        - Every single topic from the provided list must be assigned to at least one quote. This is mandatory.
+        - If there are 10 topics in the provided list, ensure that exactly 10 unique topics are used as values in the generated JSON output. The same applies for any other number of topics.
+        - If a topic is not naturally assignable based on the relevance to any quote, assign a reasonable quote to that topic to ensure that no topic is left unassigned.
+        - Ensure that all quotes in the generated response are in their full context.
+        - No truncation is allowed—each quote must begin with the interviewee's name and end with the last word spoken by the interviewee.
+        - No quotes should be missing compared to the quotes in the input. Ensure that every quote present in the input dictionary is also present in the output.
+        - Format the output as a valid JSON object and preserve the input structure.
+        - Mandatory: Each and every single quote from the input dictionary must be included in the output dictionary.
+        - Follow the bellow example instance: 
 
         
         <START OF TOPIC SELCTION EXAMPLE>
@@ -1414,7 +1424,7 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             
         
         
-
+        - Ensure each one of of the following topics has at least one quote assigned to it.
         < START of List Topic >
         """ +
         "\n".join(topics)
@@ -1434,9 +1444,9 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
     completion = client.chat.completions.create(
 
-        model = "gpt-4o-mini",
-        temperature=0.1,
-        max_tokens= 16000,
+        model = "gpt-4o-2024-08-06",
+        temperature=0,
+        max_tokens= 15000,
         frequency_penalty= 0,
         presence_penalty= 0,
         messages=messages,
@@ -1445,10 +1455,13 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
 
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
-        print("CORRECT ASSING")
-        print(corrected_assignment)
+        # print("CORRECT ASSING")
+        # print(corrected_assignment)
+        # print("TOPICS")
+        # print(topics)
     except Exception as e:
-        print(e)
+        # print("EXCEPTION IN ASSIGNMENT ----------------")
+        # print(e)
         corrected_assignment = {}
     
 
@@ -1471,6 +1484,13 @@ def update_topic_assignment_all_at_once(redundant_quotes_dict, topics_dict, topi
             # printing stack trace 
             traceback.print_exc() 
 
+
+    total_quotes = 0
+    for topic in topics_dict.keys():
+        total_quotes = total_quotes + len(topics_dict[topic]["quotes"]) 
+    # print(f"NUmber quotes after update_topic_assignment_all_at_once {total_quotes}")
+
+
     return topics_dict
 
 
@@ -1492,11 +1512,16 @@ def topic_assignment_validation(topics_dict, topics):
     """
 
 
+    updated_topics_dict = {}
+    for topic in topics_dict.keys():
+        updated_topics_dict[topic] = topics_dict[topic]["quotes"]
+
+
     messages = [
 
     {
         "role": "system",
-        "content": "You are a helpfull assistant and JSON formater that helps editors assign quotes to the most appropriate topic option."
+        "content": "You are a helpfull assistant and JSON formater that helps editors validate topic-to-quotes assignment."
     },
 
     {
@@ -1504,21 +1529,34 @@ def topic_assignment_validation(topics_dict, topics):
         "content":
         """
 
-        Given the bellow quotes and a set of topic options for each quote do the following:
 
+        Validate the following topic-to-quotes dictionary by checking if the initial assignments adhere to the following guidelines:
         <INSTRUCTIONS START>
+        + Ensure that every single topic has at least one quote assigned to it.
+        + If any topic is missing quotes, verify that at least one relevant quote has been reassigned to it based on content, ensuring no topic is left unrepresented.
+        + The total number of topics in the output must be the same as in the input dictionary.
+        + The total number of quotes in the output must remain identical to the total number of quotes in the input dictionary.
+        + Every single quote provided in the input must appear in the output. Check that no quotes are missing, omitted, skipped, or left unassigned.
+        + Ensure that each quote is assigned to only one topic and is not duplicated across multiple topics.
+        + Verify that all quotes appear in their full, original context, starting with the interviewee's name and ending with the last word spoken by the interviewee.
+        + No truncation of quotes is allowed—confirm that the entire quote is present from start to finish.
+        + Preserve the structure of the input dictionary—ensure no topics or quotes have been removed or modified.
+        + The final output must include every topic and every quote from the input dictionary, with no omissions, truncations, or duplicates.
+        + The output must be in the following json format:
 
+        {
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]}
+        }
 
-        - Ensure each topic from the topic list above is assigned to at least one quote.
-        - Mandatory: Each topic from the topics list bellow  must be assigned to at least one quote in the output.
-        - If a topic is not naturally assignable based on the relevance to any quote(example, topic1), select a reasonable quote for that topic to ensure that no topic is left out.
-        - Ensure that each quote is attributed to one and only one topic.
-        - Ensure that all the quotes in the generated response are in their full context. 
-        - No truncation should occur in the quotes. The quotes must start by the interviewee's name and must end with the last word that the interviewee said. Never end any of the quote before the last word of interviewee.
-        - Format the output as a valid JSON object, preserve the input format.
+        The following output type is not permitted
 
-
-        
+        {
+        <topic> : { "quotes" : [<empty list>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]},
+        <topic> : { "quotes" : [<list of quotes containing at least 1 quote>]}
+        }
         < START of List Topic >
         """ +
         "\n".join(topics)
@@ -1527,9 +1565,11 @@ def topic_assignment_validation(topics_dict, topics):
 
         <START of quotes-topics options >
         """ +
-        str(topics_dict)
+        str(updated_topics_dict)
         + """
         <END of quotes-topics options >
+
+
 
         """
     }
@@ -1538,9 +1578,9 @@ def topic_assignment_validation(topics_dict, topics):
 
     completion = client.chat.completions.create(
 
-        model = "gpt-4o-mini",
-        temperature=0.1,
-        max_tokens= 16000,
+        model = "gpt-4o-2024-08-06",
+        temperature=0,
+        max_tokens= 15000,
         frequency_penalty= 0,
         presence_penalty= 0,
         messages=messages,
@@ -1549,13 +1589,20 @@ def topic_assignment_validation(topics_dict, topics):
 
     try:
         corrected_assignment = json.loads(completion.choices[0].message.content , strict=False)
-        print("CORRECT ASSING")
-        print("len keys")
-        print(len(corrected_assignment.keys()))
-        print(corrected_assignment)
+        # print("CORRECT ASSING")
+        # print("len keys")
+        # print(len(corrected_assignment.keys()))
+        # print(corrected_assignment)
+        
+        total_quotes = sum(len(corrected_assignment[topic]["quotes"]) for topic in corrected_assignment.keys())
+        # print(f"NUmber quotes after topic_assignment_validation {total_quotes}")
+
     except Exception as e:
-        print(e)
+        # print(e)
+        # print("EXCEPTION-----------------")
         corrected_assignment = {}
+
+
     
 
     return  corrected_assignment
@@ -1572,16 +1619,22 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     Returns:
     - Updated quotes_dictionnary with full quotes replacing truncated ones.
     """
-    
+
     for topic in quotes_dictionnary.keys():  # List to avoid runtime dictionary change issues
-        print()
-        print()
+
         for i in range(len(quotes_dictionnary[topic]["quotes"])):
             len_quote = len(quotes_dictionnary[topic]["quotes"][i])
             for full_quote in all_quotes_set:
                 if full_quote[:len_quote] == quotes_dictionnary[topic]["quotes"][i]:  # String slicing for comparison
                     quotes_dictionnary[topic]["quotes"][i] = full_quote
-                    print("MATCH.........")
+                    # print("MATCH.........")
                     break
+
+    
+    # print("EXTRACTED QUOTES BEFORE UPDATES-------------------------")
+    # for q in all_quotes_set:
+    #     print(q)
+    # print("----------------------------------------------------------------")
+    
 
     return quotes_dictionnary

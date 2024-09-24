@@ -34,7 +34,7 @@ def load_vectorstore():
     return docsearch
 
 
-def similarity_search(query, docsearch, k=5):
+def similarity_search(query, docsearch, k=10):
     results = docsearch.similarity_search(query, k=k)
 
     docs = [doc.page_content for doc in results]
@@ -98,9 +98,5 @@ def get_quotes(topic):
 
     # remove the interviewer's quotes
     _, interviewee_quotes = separte_speakers("\n".join(docs))
-    print(len(docs))
-    print("*********")
-    print(len(interviewee_quotes))
-    print("*********")
     interviewee_quotes = [q for q in interviewee_quotes if len(q) > 200]
     return  interviewee_quotes
