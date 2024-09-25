@@ -446,7 +446,8 @@ with st.container(border=False):
             st.write(f"Generated Document Word Count: {st.session_state.updated_word_count}")
 
     if st.session_state.assessement !="":
-        qa_text_area = st.text_area("Adherence assessment", st.session_state.assessement, height=600)
+        # qa_text_area = st.text_area("Adherence assessment", st.session_state.assessement, height=600)
+        st.json(st.session_state.assessement)
 
 
     if st.button("Get memorable quotes"):
