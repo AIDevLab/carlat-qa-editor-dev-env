@@ -167,6 +167,14 @@ if "topics_with_flow_order" not in st.session_state:
 if "topics_with_appearance_percentage" not in st.session_state:
     st.session_state.topics_with_appearance_percentage = []
 
+if "assessement" not in st.session_state:
+    st.session_state.assessement = ""
+
+if "original_word_count" not in st.session_state:
+    st.session_state.original_word_count = ""
+
+if "updated_word_count" not in st.session_state:
+     st.session_state.updated_word_count = ""
 
 st.markdown(
     """
@@ -415,7 +423,7 @@ with st.container(border=False):
                     
             # st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
             # update the conversation flow and vary the questions 
-            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
+            st.session_state.final_draft, st.session_state.assessement = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
             #st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
             #st.download_button("Download draft", st.session_state.final_draft)
 
@@ -434,8 +442,11 @@ with st.container(border=False):
                 updated_word_count = len(st.session_state.final_draft.split())
 
                 # Write the word counts to the Streamlit app
-                st.write(f"Original Document Word Count: {original_word_count}")
-                st.write(f"Generated Document Word Count: {updated_word_count}")
+            st.write(f"Original Document Word Count: {st.session_state.original_word_count}")
+            st.write(f"Generated Document Word Count: {st.session_state.updated_word_count}")
+
+    if st.session_state.assessement !="":
+        qa_text_area = st.text_area("Adherence assessment", st.session_state.assessement, height=600)
 
 
     if st.button("Get memorable quotes"):
@@ -476,6 +487,10 @@ with st.container(border=False):
         st.session_state.topics_with_importance_order = []
         st.session_state.topics_with_flow_order = []
         st.session_state.topics_with_appearance_percentage = []
+        st.session_state.assessement = ""
+        st.session_state.original_word_count = ""
+        st.session_state.updated_word_count = ""
+        
 
         st.empty()
         st.rerun()
