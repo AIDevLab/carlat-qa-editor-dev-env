@@ -438,8 +438,8 @@ with st.container(border=False):
             
 
                 # Calculate word counts for original and generated documents
-                original_word_count = len(st.session_state.file_content.split())
-                updated_word_count = len(st.session_state.final_draft.split())
+                st.session_state.original_word_count = len(st.session_state.file_content.split())
+                st.session_state.updated_word_count = len(st.session_state.final_draft.split())
 
                 # Write the word counts to the Streamlit app
     st.write(f"Original Document Word Count: {st.session_state.original_word_count}")
