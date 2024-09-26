@@ -168,7 +168,7 @@ if "topics_with_appearance_percentage" not in st.session_state:
     st.session_state.topics_with_appearance_percentage = []
 
 if "assessement" not in st.session_state:
-    st.session_state.assessement = ""
+    st.session_state.assessement = {}
 
 if "original_word_count" not in st.session_state:
     st.session_state.original_word_count = ""
@@ -488,7 +488,7 @@ with st.container(border=False):
         st.session_state.topics_with_importance_order = []
         st.session_state.topics_with_flow_order = []
         st.session_state.topics_with_appearance_percentage = []
-        st.session_state.assessement = ""
+        st.session_state.assessement = {}
         st.session_state.original_word_count = ""
         st.session_state.updated_word_count = ""
         
