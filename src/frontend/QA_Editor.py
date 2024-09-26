@@ -442,12 +442,12 @@ with st.container(border=False):
                 updated_word_count = len(st.session_state.final_draft.split())
 
                 # Write the word counts to the Streamlit app
-            st.write(f"Original Document Word Count: {st.session_state.original_word_count}")
-            st.write(f"Generated Document Word Count: {st.session_state.updated_word_count}")
+    st.write(f"Original Document Word Count: {st.session_state.original_word_count}")
+    st.write(f"Generated Document Word Count: {st.session_state.updated_word_count}")
 
-    if st.session_state.assessement !="":
+    #if st.session_state.assessement !="":
         # qa_text_area = st.text_area("Adherence assessment", st.session_state.assessement, height=600)
-        st.json(st.session_state.assessement)
+    st.json(st.session_state.assessement)
 
 
     if st.button("Get memorable quotes"):
