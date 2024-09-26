@@ -167,6 +167,14 @@ if "topics_with_flow_order" not in st.session_state:
 if "topics_with_appearance_percentage" not in st.session_state:
     st.session_state.topics_with_appearance_percentage = []
 
+if "assessement" not in st.session_state:
+    st.session_state.assessement = {}
+
+if "original_word_count" not in st.session_state:
+    st.session_state.original_word_count = ""
+
+if "updated_word_count" not in st.session_state:
+     st.session_state.updated_word_count = ""
 
 st.markdown(
     """
@@ -259,10 +267,7 @@ with st.container(border=False):
         # find the NoneType elements index
         none_indices = [index for index, value in enumerate(st.session_state.list_topics) if value is None]
 
-        
-
         # assigning and updating the importance and percentage info to the topics
-        # st.session_state.topics_with_importance_order = list(zip(st.session_state.list_topics, st.session_state.data['Importance Order'].tolist()))
         st.session_state.topics_with_flow_order = list(zip(st.session_state.list_topics, st.session_state.data['Flow Order'].tolist()))
         st.session_state.topics_with_appearance_percentage = list(zip(st.session_state.list_topics, st.session_state.data['Appearance Percentage'].tolist()))
 
@@ -334,13 +339,7 @@ with st.container(border=False):
 
 
     if st.session_state.quotes_retreived == True:
-        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=600)
-    # if st.button("Update quotes"):
-    #     if st.session_state.quotes_retreived == False:
-    #         st.warning("Please generate quotes first.")
-    #     else:
-    #         update_quotes_text_area()
-                    
+        quotes_text_area = st.text_area("Quotes", st.session_state.quotes_text, height=600)     
     if st.button("Highlight document"):
 
         if not st.session_state.quotes_retreived:
@@ -348,8 +347,6 @@ with st.container(border=False):
         else:
             with st.spinner("Highlighting in progress"):
                 
-
-
                 document = highlight("uploaded_file.docx",st.session_state.topics_dict)
 
                 # Read the content of the temporary file as bytes
@@ -413,11 +410,8 @@ with st.container(border=False):
             for topic in st.session_state.topics_dict.keys():
                 initial_draft = initial_draft + st.session_state.topics_dict[topic]["formated_qa"] + "\n\n"
                     
-            # st.session_state.final_draft = remove_duplicates_levenshtein(initial_draft.split("\n\n"), threshold_ratio=0.65)
             # update the conversation flow and vary the questions 
-            st.session_state.final_draft = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
-            #st.session_state.all_qa_text = format_qa_content_all(st.session_state.topics_dict)
-            #st.download_button("Download draft", st.session_state.final_draft)
+            st.session_state.final_draft, st.session_state.assessement = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
 
             document = doc()
             document.add_paragraph(st.session_state.final_draft)
@@ -430,12 +424,13 @@ with st.container(border=False):
             
 
                 # Calculate word counts for original and generated documents
-                original_word_count = len(st.session_state.file_content.split())
-                updated_word_count = len(st.session_state.final_draft.split())
+                st.session_state.original_word_count = len(st.session_state.file_content.split())
+                st.session_state.updated_word_count = len(st.session_state.final_draft.split())
 
                 # Write the word counts to the Streamlit app
-                st.write(f"Original Document Word Count: {original_word_count}")
-                st.write(f"Generated Document Word Count: {updated_word_count}")
+    st.write(f"Original Document Word Count: {st.session_state.original_word_count}")
+    st.write(f"Generated Document Word Count: {st.session_state.updated_word_count}")
+    st.json(st.session_state.assessement)
 
 
     if st.button("Get memorable quotes"):
@@ -476,6 +471,10 @@ with st.container(border=False):
         st.session_state.topics_with_importance_order = []
         st.session_state.topics_with_flow_order = []
         st.session_state.topics_with_appearance_percentage = []
+        st.session_state.assessement = {}
+        st.session_state.original_word_count = ""
+        st.session_state.updated_word_count = ""
+        
 
         st.empty()
         st.rerun()
