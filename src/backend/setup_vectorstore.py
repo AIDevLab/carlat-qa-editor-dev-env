@@ -62,7 +62,7 @@ def separte_speakers(raw_text):
             else:
                 if (len(formatted_text) != 0):
                     # concat to the previous speaker's text 
-                    formatted_text[-1] = formatted_text[-1] + "\n" + chunk
+                    formatted_text[-1] = formatted_text[-1] + "\n\n" + chunk
 
     qa_formatted_text = []
     interviewee_quotes = []

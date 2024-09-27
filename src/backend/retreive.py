@@ -97,6 +97,6 @@ def get_quotes(topic):
     docs = similarity_search(topic, vect_store)
 
     # remove the interviewer's quotes
-    _, interviewee_quotes = separte_speakers("\n".join(docs))
+    qa_formatted_text, interviewee_quotes = separte_speakers("\n".join(docs))
     interviewee_quotes = [q for q in interviewee_quotes if len(q) > 200]
-    return  interviewee_quotes
+    return qa_formatted_text
