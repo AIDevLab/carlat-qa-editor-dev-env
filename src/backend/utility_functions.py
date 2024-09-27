@@ -1286,6 +1286,7 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
             - Follow the specified order of topics and ensure that each topic appears according to the defined percentage distribution.
             - Along with generating a smooth and coherent transcript, provide an assessment of how well you adhered to both the topic order and the content percentage for each topic in the transcript.
+            - Use the same style of questions as reference, with little ajustements in the questions when needed to ensure the flow
             - The output must be in the following json format
             {
                 "transcript": "",
