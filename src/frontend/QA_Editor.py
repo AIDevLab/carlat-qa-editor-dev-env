@@ -407,8 +407,10 @@ with st.container(border=False):
             st.warning("Please generate Q/A pairs first.")
         else:
             initial_draft = ""
+            print("PRINTING QA PAIRS --------------------------------")
             for topic in st.session_state.topics_dict.keys():
                 initial_draft = initial_draft + st.session_state.topics_dict[topic]["formated_qa"] + "\n\n"
+                print(st.session_state.topics_dict[topic]["formated_qa"] + "\n\n")
                     
             # update the conversation flow and vary the questions 
             st.session_state.final_draft, st.session_state.assessement = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
