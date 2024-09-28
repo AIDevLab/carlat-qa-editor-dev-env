@@ -867,7 +867,7 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
 
                                 ## Defining task 
 
-                                Below is a quote from an interview transcript. Your first task is to ameliorate the interviewer's question and question introduction statements (the statments before the question itsself) while keeping the same style and wording and your second task is to use the quote itself to generate a detailed answer. Both the question and the answer should precisely mirror the wording, style, and tone of the interviewer and the interviewee.
+                                Below is a quote from an interview transcript. Your first task is to remove the filer words from the interviewer's question and question introduction statements (the statments before the question itsself) while keeping the same style and wording and your second task is to use the quote itself to generate a detailed answer. Both the question and the answer should precisely mirror the wording, style, and tone of the interviewer and the interviewee.
                                 Ensure that the answer is not a condensed version or summary of the original quote; instead, enhance the quote by removing unnecessary words, repetitions, etc., to make it suitable for publication in a journal. Preserve the original number of paragraphs present in the quote
                                 The final output must be in a python parsable JSON format as appeares on the bellow schema.
 
@@ -883,6 +883,7 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                                 + Maintain the main sentences, style and wording of the quotes.
                                 + Maintain the approximate length of the  quote. 
                                 + Do not summarize the answer nor shrink it to less than two thirds of original quote.
+                                + Do not change the style of the question 
                                 + The question should start with the interviewer label, example: 
                                 Interviewer: ................
                                 + The answer should start with the name of the interviewee that is already mentionned in the bellow quotes,  example: 
