@@ -867,7 +867,7 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
 
                                 ## Defining task 
 
-                                Below is a quote from an interview transcript. Your first task is to ameliorate the question of the interviewer while keeping the same style and wording and your second task is to use the quote itself to generate a detailed answer. Both the question and the answer should precisely mirror the wording, style, and tone of the interviewer and the interviewee.
+                                Below is a quote from an interview transcript. Your first task is to ameliorate the interviewer's question and question introduction statements (the statments before the question itsself) while keeping the same style and wording and your second task is to use the quote itself to generate a detailed answer. Both the question and the answer should precisely mirror the wording, style, and tone of the interviewer and the interviewee.
                                 Ensure that the answer is not a condensed version or summary of the original quote; instead, enhance the quote by removing unnecessary words, repetitions, etc., to make it suitable for publication in a journal. Preserve the original number of paragraphs present in the quote
                                 The final output must be in a python parsable JSON format as appeares on the bellow schema.
 
