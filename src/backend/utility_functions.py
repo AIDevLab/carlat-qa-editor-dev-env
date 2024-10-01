@@ -877,7 +877,7 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                                 + Always put a comma , after each JSON field 
                                 + Make the answer to the question as detailed as possible according to the quote.
                                 + Remove all the filler words from the quote 
-                                + Relove the secondary auxilary thoughts with no direct relation to the question.
+                                + Remove the secondary auxilary thoughts with no direct relation to the question.
                                 + Remove repetitions of thoughts from the quote
                                 + make the quote-based answer more suitable for a journal article than the quote itself.
                                 + Maintain the main sentences, style and wording of the quotes.
@@ -888,6 +888,10 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                                 Interviewer: ................
                                 + The answer should start with the name of the interviewee that is already mentionned in the bellow quotes,  example: 
                                 Dr. Jane: ................
+
+                                - Use the questions attributed to each quote in the Q/A pairs below.
+                                - Use the same style of questions as reference, with little ajustements in the questions when needed.
+ 
 		
                                 
                                 ## Defining output format
@@ -901,10 +905,10 @@ def get_qa_for_quote(quotes,topic, custom_prompt):
                     
                     +"""
 
-                    <Quotes>
+                    <Q/A pairs>
                     """  
                     +" " + quotes
-                    +"""<End Quotes>
+                    +"""<End Q/A pairs>
 
                     ## Defining JSON output format 
                     { // opening curly brace 
