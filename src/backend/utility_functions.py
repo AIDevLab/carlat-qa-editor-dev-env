@@ -1272,7 +1272,6 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             
             <INSTRUCTIONS START> 
             - Reorder the Q/A pairs following the exact order of the topics given within the topics order tag above. 
-            - make the question direct and precise.
             - Don't add "thank you" to the interviewer questions.
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
             - Do not say thank you in the questions
@@ -1287,7 +1286,9 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             - Ensure that the generated interview transcript is a flawfull, organized transcript that seems like a well planned interaction from beginning to end.
             - Follow the specified order of topics and ensure that each topic appears according to the defined percentage distribution.
             - Along with generating a smooth and coherent transcript, provide an assessment of how well you adhered to both the topic order and the content percentage for each topic in the transcript.
+            - Use the questions attributed to each quote in the transcript above.
             - Use the same style of questions as reference, with little ajustements in the questions when needed to ensure the flow
+            - Read your generated flowfull transcript and take yourtime ensuring the questions flow is coherent and seamless flowful from the start of the interview till the end.
             - The output must be in the following json format
             {
                 "transcript": "",
