@@ -1710,7 +1710,7 @@ def evaluate_fix_transcript( transcript):
         The output should be in  a json format as follow:
 
         {
-        "revised_transcript" : <revised_transcript>
+        "revised_transcript" : <revised_transcript STRING>
         }
 
 
@@ -1720,9 +1720,7 @@ def evaluate_fix_transcript( transcript):
         + """
         <END of interview transcript >
 
-      
-
-
+    
 
         """
     }
