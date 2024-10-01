@@ -1663,3 +1663,90 @@ def replace_short_quote_by_original(quotes_dictionnary, all_quotes_set):
     
 
     return quotes_dictionnary
+
+
+
+
+
+
+
+
+
+
+
+
+    
+def evaluate_fix_transcript( transcript):
+    """
+    
+    """
+
+    messages = [
+
+    {
+        "role": "system",
+        "content": "You are a helpfull assistant and JSON formater that helps editors evaluate and fix interview transcript seamless  flow."
+    },
+
+    {
+        "role": "user",
+        "content":
+        """
+
+        Analyze the following interview transcript with a focus on improving its flow and coherence:
+
+        Assess and Correct Flow: Rigorously examine the flow of questions and answers. Reorder the QA blocks where necessary to ensure logical progression and thematic consistency. Each question should build naturally on the previous one, and transitions between topics must be smooth.
+
+        Reorganize for Clarity: If any questions or answers feel out of place or disrupt the logical sequence, move them to their appropriate positions. Ensure that related topics are grouped together for a well-structured narrative.
+
+        Enforce Cohesiveness: Make the entire interview read seamlessly, with clear connections between questions. Add or revise transitions if needed to maintain coherence.
+
+        Preserve All Information: Do not remove or omit any information from the transcript. Only reorder the content where necessary to enhance flow and readability.
+
+        Final Output: Ensure that the final version is cohesive, logically structured, and easy to follow from start to finish. The conversation should feel natural, without abrupt topic changes or disjointed segments.
+
+        Proceed with precision and make decisive adjustments where necessary.
+
+        The output should be in  a json format as follow:
+
+        {
+        "revised_transcript" : <revised_transcript>
+        }
+
+
+        < START of interview transcript >
+        """ +
+        "\n".join(transcript)
+        + """
+        <END of interview transcript >
+
+      
+
+
+
+        """
+    }
+    ]
+
+
+    completion = client.chat.completions.create(
+
+        model = "gpt-4o-2024-08-06",
+        temperature=0,
+        max_tokens= 15000,
+        frequency_penalty= 0,
+        presence_penalty= 0,
+        messages=messages,
+        response_format={"type": "json_object"}
+    )
+
+    try:
+        output = json.loads(completion.choices[0].message.content , strict=False)
+
+    except Exception as e:
+        output = {"revised_transcript":""}
+
+
+    
+
+    return  output["revised_transcript"]
