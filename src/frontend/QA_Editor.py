@@ -415,6 +415,7 @@ with st.container(border=False):
             # update the conversation flow and vary the questions 
             st.session_state.final_draft, st.session_state.assessement = make_transcript_flowful(st.session_state.topics_with_flow_order, initial_draft, st.session_state.topics_with_appearance_percentage )
             st.session_state.final_draft = evaluate_fix_transcript(st.session_state.final_draft)
+            print(st.session_state.final_draft)
             document = doc()
             document.add_paragraph(st.session_state.final_draft)
             document.save("generated_draft.docx")
