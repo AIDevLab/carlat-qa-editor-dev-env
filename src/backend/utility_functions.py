@@ -1245,7 +1245,7 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
 
     messages = [
         {"role": "system",
-         "content" : "You're a helpful editor's assistant."},
+         "content" : "You're a helpful editor's assistant. Your job is to revise the Q/A pairs transcript and make of it a seamlessly flowful transcript as it would have been the case at any professional level interview."},
         {
             "role": "user",
             "content" : """
@@ -1275,6 +1275,7 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             Given the above Q/A pairs and the above list of ordred topics, your mission is to follow the bellow instructions:
             
             <INSTRUCTIONS START> 
+            - revise the Q/A pairs transcript above and make of it a seamlessly flowful transcript as it would have been the case at any professional level interview.
             - Reorder the Q/A pairs following the exact order of the topics given within the topics order tag above. 
             - Don't add "thank you" to the interviewer questions.
             - Avoid repeating the questions in the same style( avoid the "Thank you, now let's ...." style in the questions)
@@ -1292,7 +1293,7 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             - Along with generating a smooth and coherent transcript, provide an assessment of how well you adhered to both the topic order and the content percentage for each topic in the transcript.
             - Use the questions attributed to each quote in the transcript above.
             - Use the same style of questions as reference, with little ajustements in the questions when needed to ensure the flow
-            - Read your generated flowfull transcript and take yourtime ensuring the questions flow is coherent and seamless flowful from the start of the interview till the end.
+            - Read your generated flowfull transcript and take your time ensuring the questions flow is coherent, seamless and flowful from the start of the interview till the end.
             - Group related questions together for a smoother progression.
             - Include transition phrases to guide the reader from one topic to the next. For example, after discussing developmental challenges, introduce a transition like, 'Given these developmental challenges, what is the typical outlook if left unaddressed?' This will help maintain a logical flow throughout the conversation.
             - The output must be in the following json format
