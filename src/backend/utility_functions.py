@@ -1293,6 +1293,8 @@ def make_transcript_flowful(topics_with_flow_order, qa_draft, topics_with_appear
             - Use the questions attributed to each quote in the transcript above.
             - Use the same style of questions as reference, with little ajustements in the questions when needed to ensure the flow
             - Read your generated flowfull transcript and take yourtime ensuring the questions flow is coherent and seamless flowful from the start of the interview till the end.
+            - Group related questions together for a smoother progression.
+            - Include transition phrases to guide the reader from one topic to the next. For example, after discussing developmental challenges, introduce a transition like, 'Given these developmental challenges, what is the typical outlook if left unaddressed?' This will help maintain a logical flow throughout the conversation.
             - The output must be in the following json format
             {
                 "transcript": "",
